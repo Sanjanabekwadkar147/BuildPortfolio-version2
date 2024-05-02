@@ -1,0 +1,132 @@
+@media screen and (max-width: 1400px) {
+  #profile {
+    height: 83vh;
+    margin-bottom: 6rem;
+  }
+  .about-containers {
+    flex-wrap: wrap;
+  }
+  #contact,
+  #projects {
+    height: fit-content;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  #desktop-nav {
+    display: none;
+  }
+  #hamburger-nav {
+    display: flex;
+  }
+  #experience,
+  .experience-details-container {
+    margin-top: 2rem;
+  }
+  #profile,
+  .section-container {
+    display: block;
+  }
+  .arrow {
+    display: none;
+  }
+  section,
+  .section-container {
+    height: fit-content;
+  }
+  section {
+    margin: 0 5%;
+  }
+  .section__pic-container {
+    width: 275px;
+    height: 275px;
+    margin: 0 auto 2rem;
+  }
+  .about-containers {
+    margin-top: 0;
+  }
+}
+
+/* For screens up to 600px wide */
+@media screen and (max-width: 600px) {
+  /* Adjust height and margin for contact and footer */
+  #contact,
+  footer {
+    height: auto; /* Adjust as needed */
+    margin-bottom: 2rem; /* Adjust as needed */
+  }
+
+  /* Adjust height and margin for profile */
+  #profile {
+    height: auto; /* Adjust as needed */
+    margin-bottom: 0;
+  }
+
+  /* Decrease font size of articles */
+  article {
+    font-size: 0.9rem; /* Decrease as needed */
+  }
+
+  /* Adjust height and margin for footer nav */
+  footer nav {
+    height: auto; /* Adjust as needed */
+    margin-bottom: 2rem; /* Adjust as needed */
+  }
+
+  /* Make containers and elements wrap */
+  .about-containers,
+  .contact-info-upper-container,
+  .btn-container {
+    flex-wrap: wrap;
+  }
+
+  /* Adjust margin for contact info container */
+  .contact-info-container {
+    margin: 0;
+  }
+
+  /* Decrease font size for contact info and navigation links */
+  .contact-info-container p,
+  .nav-links li a {
+    font-size: 0.9rem; /* Decrease as needed */
+  }
+
+  /* Decrease font size for experience sub-title */
+  .experience-sub-title {
+    font-size: 1rem; /* Decrease as needed */
+  }
+
+  /* Decrease font size for logo */
+  .logo {
+    font-size: 1.25rem; /* Decrease as needed */
+  }
+
+  /* Adjust flex direction and alignment for navigation links */
+  .nav-links {
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
+  }
+
+  /* Adjust width and height for section pic container */
+  .section__pic-container {
+    width: auto; /* Adjust as needed */
+    height: 46vw; /* Adjust as needed */
+    justify-content: center;
+  }
+
+  /* Decrease font size for section text paragraph 2 */
+  .section__text__p2 {
+    font-size: 1rem; /* Decrease as needed */
+  }
+
+  /* Decrease font size for title */
+  .title {
+    font-size: 1.5rem; /* Decrease as needed */
+  }
+
+  /* Adjust text alignment for text container */
+  .text-container {
+    text-align: justify;
+  }
+}
