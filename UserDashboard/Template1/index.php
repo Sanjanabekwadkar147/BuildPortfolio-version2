@@ -88,6 +88,16 @@ if ($about_result && mysqli_num_rows($about_result) > 0) {
                         <li><a href="#resume" data-after="Resume">Resume</a></li>
                         <li><a href="#about" data-after="About">About</a></li>
                         <li><a href="#contact" data-after="Contact">Contact</a></li>
+                        <!-- Add a theme selector UI -->
+                        <select id="themeSelector">
+                            <option value="crimson">Crimson</option>
+                            <option value="#E75480">Pink</option>
+                            <option value="#B22222">Firebrick</option>
+                            <option value="#8B0000">DarkRed</option>
+
+
+                        </select>
+
                         <li><a href="#" id="shareBtn" onclick="sharePortfolio()">Share</a></li>
                     </ul>
                 </div>
@@ -97,9 +107,11 @@ if ($about_result && mysqli_num_rows($about_result) > 0) {
     <!-- End Header -->
 
     <!-- Hero Section -->
-    <section id="hero">
+    <section id="hero" style="background-image:url('img/back1.jpg');" onclick="changeBackground()">
+
         <div class="hero container">
             <div>
+
                 <h1>Hello, <span></span></h1>
                 <h1>My Name is <span></span></h1>
                 <h1>
@@ -110,6 +122,9 @@ if ($about_result && mysqli_num_rows($about_result) > 0) {
                 </p>
             </div>
         </div>
+        <input type="file" id="backgroundInput" style="display: none;" accept="image/*"
+            onchange="handleBackgroundChange(event)">
+
     </section>
     <!-- End Hero Section -->
 
@@ -383,22 +398,50 @@ if ($about_result && mysqli_num_rows($about_result) > 0) {
     <script src="./app.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-   <script>
-    function sharePortfolio() {
-        // Check if the Web Share API is supported
-        if (navigator.share) {
-            navigator.share({
-                title: 'My Portfolio',
-                text: 'Check out my portfolio!',
-                url: window.location.href
-            }).then(() => console.log('Successful share'))
-            .catch((error) => console.log('Error sharing:', error));
-        } else {
-            // Fallback for browsers that do not support Web Share API
-            alert('Web Share API is not supported in this browser. You can manually copy the link from the address bar.');
+    <script>
+        function sharePortfolio() {
+            // Check if the Web Share API is supported
+            if (navigator.share) {
+                navigator.share({
+                    title: 'My Portfolio',
+                    text: 'Check out my portfolio!',
+                    url: window.location.href
+                }).then(() => console.log('Successful share'))
+                    .catch((error) => console.log('Error sharing:', error));
+            } else {
+                // Fallback for browsers that do not support Web Share API
+                alert('Web Share API is not supported in this browser. You can manually copy the link from the address bar.');
+            }
         }
-    }
-</script>
+        function changeBackground() {
+            // Trigger click event of input element
+            document.getElementById('backgroundInput').click();
+        }
+
+        function handleBackgroundChange(event) {
+            const file = event.target.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                const imageUrl = e.target.result;
+                document.getElementById('hero').style.backgroundImage = `url(${imageUrl})`;
+            };
+
+            reader.readAsDataURL(file);
+        }
+        // Get the theme selector element
+        const themeSelector = document.getElementById('themeSelector');
+
+        // Add event listener to handle theme change
+        themeSelector.addEventListener('change', function () {
+            // Get the selected theme color
+            const selectedColor = themeSelector.value;
+
+            // Update the CSS custom property with the selected color
+            document.documentElement.style.setProperty('--primary-color', selectedColor);
+        });
+
+    </script>
 
     </div>
 
