@@ -89,16 +89,9 @@ if ($about_result && mysqli_num_rows($about_result) > 0) {
                         <li><a href="#about" data-after="About">About</a></li>
                         <li><a href="#contact" data-after="Contact">Contact</a></li>
                         <!-- Add a theme selector UI -->
-                        <select id="themeSelector">
-                            <option value="crimson">Crimson</option>
-                            <option value="#E75480">Pink</option>
-                            <option value="#B22222">Firebrick</option>
-                            <option value="#8B0000">DarkRed</option>
-
-
-                        </select>
-
+                       
                         <li><a href="#" id="shareBtn" onclick="sharePortfolio()">Share</a></li>
+                        <input type="color" id="themeSelector" value="#ff0000">
                     </ul>
                 </div>
             </div>
@@ -429,17 +422,18 @@ if ($about_result && mysqli_num_rows($about_result) > 0) {
 
             reader.readAsDataURL(file);
         }
-        // Get the theme selector element
-        const themeSelector = document.getElementById('themeSelector');
+     // Get the theme selector element
+const themeSelector = document.getElementById('themeSelector');
 
-        // Add event listener to handle theme change
-        themeSelector.addEventListener('change', function () {
-            // Get the selected theme color
-            const selectedColor = themeSelector.value;
+// Add event listener to handle theme change
+themeSelector.addEventListener('input', function () {
+    // Get the selected theme color
+    const selectedColor = themeSelector.value;
 
-            // Update the CSS custom property with the selected color
-            document.documentElement.style.setProperty('--primary-color', selectedColor);
-        });
+    // Update the CSS custom property with the selected color
+    document.documentElement.style.setProperty('--primary-color', selectedColor);
+});
+
 
     </script>
 

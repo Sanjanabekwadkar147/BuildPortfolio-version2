@@ -83,8 +83,12 @@ if ($about_result && mysqli_num_rows($about_result) > 0) {
         <li class="link"><a href="#blog">Projects</a></li>
         <li class="link"><a href="#contact">Contact</a></li>
         <li class="link"><a href="#" id="shareBtn" onclick="sharePortfolio()">Share</a></li>
+        <li class="link"><a href="#"><i class="ri-settings-3-line"></i></a><li>
+         <input type="color" id="themeSelector" value="#ff0000">
       </ul>
+      
     </nav>
+   
 
     <header class="header" id="home">
       <div class="section__container header__container">
@@ -360,6 +364,35 @@ if ($about_result && mysqli_num_rows($about_result) > 0) {
             alert('Web Share API is not supported in this browser. You can manually copy the link from the address bar.');
         }
     }
+    const settingsIcon = document.querySelector('.ri-settings-3-line');
+
+        // Get the color picker content
+        const colorPickerContent = document.getElementById('colorPickerContent');
+
+        // Get the color picker element
+        const colorPicker = document.getElementById('themeColorPicker');
+
+        // When the settings icon is clicked, toggle the color picker dropdown
+        settingsIcon.addEventListener('click', function() {
+            if (colorPickerContent.style.display === 'none') {
+                colorPickerContent.style.display = 'block';
+            } else {
+                colorPickerContent.style.display = 'none';
+            }
+        });
+// Get the theme selector element
+const themeSelector = document.getElementById('themeSelector');
+
+// Add event listener to handle theme change
+themeSelector.addEventListener('input', function () {
+    // Get the selected theme color
+    const selectedColor = themeSelector.value;
+
+    // Update the CSS custom property with the selected color
+    document.documentElement.style.setProperty('--primary-color', selectedColor);
+});
+       
+    
 </script>
 
   </body>
