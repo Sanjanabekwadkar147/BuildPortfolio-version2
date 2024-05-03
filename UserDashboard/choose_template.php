@@ -100,7 +100,7 @@ $conn->close();
                 <img src="img/template3.png" class="card-img-top" alt="Template 3">
                 <div class="card-body">
                     <a href="Template3/index.php" class="btn btn-primary" target="_blank">Explore Portfolio</a>&nbsp;
-                    <a href="Template3/index.php" class="btn btn-primary" target="_blank">Edit Template</a>
+                    <a href="Template3/template3.php" class="btn btn-primary" target="_blank">Edit Template</a>
                 </div>
             </div>
         </div>
