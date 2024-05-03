@@ -83,7 +83,6 @@ if ($about_result && mysqli_num_rows($about_result) > 0) {
         <li class="link"><a href="#blog">Projects</a></li>
         <li class="link"><a href="#contact">Contact</a></li>
         <li class="link"><a href="#" id="shareBtn" onclick="sharePortfolio()">Share</a></li>
-         <input type="color" id="themeSelector" value="#ff0000">
       </ul>
       
     </nav>
@@ -363,17 +362,7 @@ if ($about_result && mysqli_num_rows($about_result) > 0) {
             alert('Web Share API is not supported in this browser. You can manually copy the link from the address bar.');
         }
     }
-     // Get the theme selector element
-     const themeSelector = document.getElementById('themeSelector');
-
-// Add event listener to handle theme change
-themeSelector.addEventListener('input', function () {
-    // Get the selected theme color
-    const selectedColor = themeSelector.value;
-
-    // Update the CSS custom property with the selected color
-    document.documentElement.style.setProperty('--primary-color', selectedColor);
-});
+  
 </script>
 
   </body>

@@ -100,7 +100,7 @@ if ($about_result && mysqli_num_rows($about_result) > 0) {
     <!-- End Header -->
 
     <!-- Hero Section -->
-    <section id="hero">
+    <section id="hero" style="background-image:url('img/back1.jpg');" onclick="changeBackground()">
 
         <div class="hero container">
             <div>
@@ -115,7 +115,8 @@ if ($about_result && mysqli_num_rows($about_result) > 0) {
                 </p>
             </div>
         </div>
-
+        <input type="file" id="backgroundInput" style="display: none;" accept="image/*"
+            onchange="handleBackgroundChange(event)">
 
     </section>
     <!-- End Hero Section -->
@@ -405,7 +406,36 @@ if ($about_result && mysqli_num_rows($about_result) > 0) {
                 alert('Web Share API is not supported in this browser. You can manually copy the link from the address bar.');
             }
         }
-            </script>
+        function changeBackground() {
+            // Trigger click event of input element
+            document.getElementById('backgroundInput').click();
+        }
+
+        function handleBackgroundChange(event) {
+            const file = event.target.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                const imageUrl = e.target.result;
+                document.getElementById('hero').style.backgroundImage = `url(${imageUrl})`;
+            };
+
+            reader.readAsDataURL(file);
+        }
+     // Get the theme selector element
+const themeSelector = document.getElementById('themeSelector');
+
+// Add event listener to handle theme change
+themeSelector.addEventListener('input', function () {
+    // Get the selected theme color
+    const selectedColor = themeSelector.value;
+
+    // Update the CSS custom property with the selected color
+    document.documentElement.style.setProperty('--primary-color', selectedColor);
+});
+
+
+    </script>
 
     </div>
 

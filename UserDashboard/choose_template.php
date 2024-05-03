@@ -91,7 +91,7 @@ $conn->close();
                 <img src="img/template2.png" class="card-img-top" alt="Template 2">
                 <div class="card-body">
                     <a href="Template1/index.php" class="btn btn-primary" target="_blank">Explore Portfolio</a>&nbsp;
-                    <a href="Template4/index.php" class="btn btn-primary" target="_blank">Edit Template</a>
+                    <a href="Template1/index.php" class="btn btn-primary" target="_blank">Edit Template</a>
                 </div>
             </div>
         </div>
@@ -106,10 +106,10 @@ $conn->close();
         </div>
         <div class="col-md-4 mb-4">
             <div class="card">
-                <img src="img/template4.png" class="card-img-top" alt="Template 2">
+                <img src="img/template4.png" class="card-img-top" alt="Template 4">
                 <div class="card-body">
                     <a href="Template4/index.php" class="btn btn-primary" target="_blank">Explore Portfolio</a>&nbsp;
-                    <a href="Template4/index.php" class="btn btn-primary" target="_blank">Edit Template</a>
+                    <a href="Template4/template4.php" class="btn btn-primary" target="_blank">Edit Template</a>
                 </div>
             </div>
         </div>
