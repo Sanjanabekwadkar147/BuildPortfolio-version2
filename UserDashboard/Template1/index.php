@@ -89,9 +89,8 @@ if ($about_result && mysqli_num_rows($about_result) > 0) {
                         <li><a href="#about" data-after="About">About</a></li>
                         <li><a href="#contact" data-after="Contact">Contact</a></li>
                         <!-- Add a theme selector UI -->
-                       
                         <li><a href="#" id="shareBtn" onclick="sharePortfolio()">Share</a></li>
-                        <input type="color" id="themeSelector" value="#ff0000">
+                       
                     </ul>
                 </div>
             </div>

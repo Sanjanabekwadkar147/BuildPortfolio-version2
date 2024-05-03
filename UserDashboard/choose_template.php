@@ -88,10 +88,10 @@ $conn->close();
         
         <div class="col-md-4 mb-4">
             <div class="card">
-                <img src="img/template2.png" class="card-img-top" alt="Template 2">
+                <img src="img/template2.png" class="card-img-top" alt="Template 1">
                 <div class="card-body">
                     <a href="Template1/index.php" class="btn btn-primary" target="_blank">Explore Portfolio</a>&nbsp;
-                    <a href="Template1/index.php" class="btn btn-primary" target="_blank">Edit Template</a>
+                    <a href="Template1/template1.php" class="btn btn-primary" target="_blank">Edit Template</a>
                 </div>
             </div>
         </div>
@@ -118,7 +118,7 @@ $conn->close();
                 <img src="img/template5.png" class="card-img-top" alt="Template 5">
                 <div class="card-body">
                   <a href="Template5/index.php" class="btn btn-primary" target="_blank">Explore Portfolio</a>&nbsp; 
-                  <a href="Template5/index.php" class="btn btn-primary" target="_blank">Edit Template</a>
+                  <a href="Template5/template5.php" class="btn btn-primary" target="_blank">Edit Template</a>
                 </div>
             </div>
         </div>
@@ -127,7 +127,7 @@ $conn->close();
                 <img src="img/template6.png" class="card-img-top" alt="Template 6">
                 <div class="card-body">
                   <a href="Template6/index.php" class="btn btn-primary" target="_blank">Explore Portfolio</a> &nbsp;    
-                  <a href="Template6/index.php" class="btn btn-primary" target="_blank">Edit Template</a>           
+                  <a href="Template6/template6.php" class="btn btn-primary" target="_blank">Edit Template</a>           
             </div>
             </div>
         </div>
