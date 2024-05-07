@@ -38,7 +38,7 @@ $about_result = mysqli_query($conn, $about_sql);
 if ($about_result && mysqli_num_rows($about_result) > 0) {
     $about_row = mysqli_fetch_assoc($about_result);
     $about_title = $about_row['about_title'];
-    $profile_pic = "/BuildPortfolio V2/UserDashboard/" . $about_row['profile_pic'];
+    $profile_pic = "/BuildPortfolioV2/UserDashboard/" . $about_row['profile_pic'];
 
     $about_description = $about_row['about_description'];
 } else {
