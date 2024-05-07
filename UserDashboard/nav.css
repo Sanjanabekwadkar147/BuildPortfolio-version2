@@ -308,12 +308,10 @@ footer span a:hover{
 }
 
 .form-container form .error-msg {
-    margin: 10px 0;
     display: block;
     color: crimson;
     border-radius: 5px;
     font-size: 15px;
-    padding: 10px;
 }
 
 
