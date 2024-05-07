@@ -1,48 +1,79 @@
 <?php
 session_start();
-include 'config.php';
+include('config.php');
 
+// Function to get the user's IP address
+function getIpAddr(){
+    if (!empty($_SERVER['HTTP_CLIENT_IP'])){
+        $ipAddr = $_SERVER['HTTP_CLIENT_IP'];
+    } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])){
+        $ipAddr = $_SERVER['HTTP_X_FORWARDED_FOR'];
+    } else {
+        $ipAddr = $_SERVER['REMOTE_ADDR'];
+    }
+    return $ipAddr;
+}
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
+    $error = []; // Initialize the $error array
 
-   // Validate email
-   if (empty($_POST['email'])) {
-    $error['email'] = 'Email is required!';
-} else {
-    $email = mysqli_real_escape_string($conn, $_POST['email']);
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $error['email'] = 'Invalid email format';
+    // Validate email
+    if (empty($_POST['email'])) {
+        $error['email'] = 'Email is required!';
     } else {
-        // Additional custom validation
-        $parts = explode('@', $email);
-        if (preg_match("/^\d|[#@]/", $parts[0])) {
+        $email = mysqli_real_escape_string($conn, $_POST['email']);
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $error['email'] = 'Invalid email format';
         }
     }
+
+    // Validate password
+    if (empty($_POST['password'])) {
+        $error['password'] = 'Password is required!';
+    }
+
+    // If no validation errors, proceed with login
+    if (empty($error)) {
+        $email = mysqli_real_escape_string($conn, $_POST['email']);
+        $password = mysqli_real_escape_string($conn, $_POST['password']);
+
+        $ip = getIpAddr();
+        $login_time_limit = time() - 20; // Limit for failed login attempts (20 seconds)
+        $login_attempts = mysqli_query($conn, "SELECT COUNT(*) AS total_count FROM ip_details WHERE ip='$ip' AND login_time > '$login_time_limit'");
+        $res = mysqli_fetch_assoc($login_attempts);
+        $count = $res['total_count'];
+
+        if ($count >= 3) {
+            $error[] = "Your account has been blocked. Please try after 20 seconds.";
+        } else {
+            $select = "SELECT * FROM users WHERE email = '$email' AND password = '$password'";
+            $result = mysqli_query($conn, $select);
+
+            if (mysqli_num_rows($result) > 0) {
+                $row = mysqli_fetch_array($result);
+                $_SESSION['user_id'] = $row['id'];
+                header('location: userdash.php?user_id=' . $row['id']);
+                exit; // Exit after redirect
+            } else {
+                $error[] = "Incorrect email or password!";
+                $count++;
+                $remaining_attempts = 3 - $count;
+
+                if ($remaining_attempts == 0) {
+                    $error[] = "Your account has been blocked. Please try after 20 seconds.";
+                } else {
+                    $error[] = "Please enter valid details. $remaining_attempts attempts remaining.";
+                }
+
+                // Insert IP details for failed login attempts
+                $login_time = time();
+                mysqli_query($conn, "INSERT INTO ip_details (ip, login_time) VALUES ('$ip', '$login_time')");
+            }
+        }
+    }
 }
-   $password = $_POST["password"];
-   //    $user_type = $_POST["user_type"];
-
-
-   $select = " SELECT * FROM users WHERE email = '$email' && password = '$password' ";
-
-   $result = mysqli_query($conn, $select);
-
-   if (mysqli_num_rows($result) > 0) {
-
-      $row = mysqli_fetch_array($result);
-
-      if ($row) {
-         $_SESSION['user_id'] = $row['id'];
-         header('location: userdash.php?user_id=' . $row['id']);
-
-      }
-   } else {
-      $error[] = 'Incorrect email or password!';
-   }
-}
-;
 ?>
+
 
 
 
