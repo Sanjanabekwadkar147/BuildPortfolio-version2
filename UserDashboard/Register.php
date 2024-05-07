@@ -86,10 +86,10 @@ if (empty($_POST['email'])) {
             <div class="max-width">
                 <div class="logo"><a href="#">Portfolio.</a></div>
                 <ul class="menu">
-                    <li><a href="/BuildPortfolio/index.php" class="menu-btn">Home</a></li>
-                    <li><a href="/BuildPortfolio/index.php" class="menu-btn">About</a></li>
-                    <li><a href="/BuildPortfolio/index.php" class="menu-btn">Services</a></li>
-                    <li><a href="/BuildPortfolio/index.php" class="menu-btn">Contact</a></li>
+                     <li><a href="/BuildPortfolio V2/index.php" class="menu-btn">Home</a></li>
+                    <li><a href="/BuildPortfolio V2/index.php" class="menu-btn">About</a></li>
+                    <li><a href="/BuildPortfolio V2/index.php" class="menu-btn">Services</a></li>
+                    <li><a href="/BuildPortfolio V2/index.php" class="menu-btn">Contact</a></li>
                 </ul>
                 <div class="menu-btn">
                     <i class="fas fa-bars"></i>
