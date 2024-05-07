@@ -307,10 +307,10 @@ if ($about_result && mysqli_num_rows($about_result) > 0) {
             <form action="https://api.web3forms.com/submit" method="post">
               <div class="input__row">
               <input type="hidden" name="access_key" value="126fd1cd-ff7b-4a9d-a3b2-6d2b6a83f6b9">
-                <input type="text" placeholder="Your Name" />
-                <input type="text" placeholder="Your Email" />
+                <input type="text" placeholder="Your Name" name="name"/>
+                <input type="text" placeholder="Your Email" name="email"/>
               </div>
-              <textarea placeholder="Your Message"></textarea>
+              <textarea placeholder="Your Message" name="message"></textarea>
               <button class="btn btn__primary">Send Message</button>
             </form>
           </div>

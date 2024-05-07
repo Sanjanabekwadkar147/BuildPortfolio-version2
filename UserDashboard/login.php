@@ -63,9 +63,6 @@ if (isset($_SESSION['lockout_time']) && (time() - $_SESSION['lockout_time']) >= 
 }
 ?>
 
-
-
-
 <!doctype html>
 <html lang="en">
 
