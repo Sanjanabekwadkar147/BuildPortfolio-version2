@@ -43,7 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
                 // Content
                 $mail->isHTML(true);
                 $mail->Subject = 'Password Reset';
-                $mail->Body    = "Hi, $name. Click here to reset your password: http://localhost:81/BuildPortfolio/UserDashboard/reset_password.php?token=$token";
+                $mail->Body    = "Hi, $name. Click here to reset your password: http://localhost:81/BuildPortfolioV2/UserDashboard/reset_password.php?token=$token";
 
                 $mail->send();
                 $success_message = "Check your email to reset your password $email";
