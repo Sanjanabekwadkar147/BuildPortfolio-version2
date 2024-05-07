@@ -22,7 +22,16 @@ if ($token_count) {
     if ($time_diff > $token_expiry) {
         echo "Token has expired. Please request a new password reset link.";
         exit;
-    }   
+    }
+    $max_reset_attempts = 10;
+    if ($userdata['password_reset_count'] >= $max_reset_attempts) {
+        echo "You have reached the maximum limit for password resets.";
+        exit;
+    }
+    
+    $update_reset_count_query = "UPDATE users SET password_reset_count = password_reset_count + 1 WHERE token = '$token'";
+    mysqli_query($conn, $update_reset_count_query);
+    
 } else {
     echo "Invalid token.";
     exit;
