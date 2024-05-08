@@ -56,10 +56,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
 
             // Validate project description
-            if (!preg_match("/^[a-zA-Z0-9\s]+$/", $p_description)) {
-                $error_messages[$i]['p_description'] = "Description should only contain letters, numbers, and whitespaces.";
-                $all_inputs_valid = false;
-            }
+          if (!preg_match("/^[a-zA-Z0-9\s.,!?]*$/", $p_description)) {
+    $error_messages[$i]['p_description'] = "Description should only contain letters, numbers, whitespaces.";
+    $all_inputs_valid = false;
+}
+
 
             // Validate project link (optional)
             if (!empty($project_link) && !filter_var($project_link, FILTER_VALIDATE_URL)) {
@@ -537,7 +538,7 @@ $('#confirmDelete').click(function () {
           // Validation logic for project description
           $("textarea[name='p_description[]']").each(function () {
             var projectDescription = $(this).val();
-            if (!projectDescription.match(/^[a-zA-Z0-9\s]+$/)) {
+            if (!projectDescription.match(/^[a-zA-Z0-9\s.,!?]*$/)) {
                 $(this).after('<div class="text-danger">Description should only contain letters, numbers, and whitespaces.</div>');
                 isValid = false;
             }
