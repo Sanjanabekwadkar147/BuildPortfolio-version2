@@ -239,7 +239,7 @@ p {
 
 /* Hero Section */
 #hero {
-    /* background-image: url(./img/back1.jpg); */
+    background-image: url(./img/back1.jpg);
     background-size: cover;
     background-position: top center;
     position: relative;

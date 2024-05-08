@@ -95,7 +95,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             $success_message = "Education Details updated successfully!";
                         } else {
                             $success_message = "Education Details added successfully!";
-                            header('location: addexperience.php');
+                            header('location: addproject.php');
                         }
 
                     }

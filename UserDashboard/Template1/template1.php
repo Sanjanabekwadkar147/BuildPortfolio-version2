@@ -100,7 +100,7 @@ if ($about_result && mysqli_num_rows($about_result) > 0) {
     <!-- End Header -->
 
     <!-- Hero Section -->
-    <section id="hero" style="background-image:url('img/back1.jpg');" onclick="changeBackground()">
+    <section id="hero">
 
         <div class="hero container">
             <div>
@@ -115,8 +115,7 @@ if ($about_result && mysqli_num_rows($about_result) > 0) {
                 </p>
             </div>
         </div>
-        <input type="file" id="backgroundInput" style="display: none;" accept="image/*"
-            onchange="handleBackgroundChange(event)">
+
 
     </section>
     <!-- End Hero Section -->

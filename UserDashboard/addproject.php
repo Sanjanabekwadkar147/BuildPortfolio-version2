@@ -420,21 +420,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         };
         function hideMessages() {
             var successAlert = document.querySelector(".alert-success");
-            var errorMessages = document.querySelectorAll(".text-danger"); // Select all error messages
-
+            var errorMessages = document.querySelectorAll(".text-danger"); 
             if (successAlert) {
                 setTimeout(function () {
                     successAlert.style.display = 'none';
-                }, 5000); // 5000 milliseconds = 5 seconds
+                }, 5000); 
             }
 
-            // Hide error messages after 5 seconds
             errorMessages.forEach(function (errorMessage) {
                 setTimeout(function () {
                     errorMessage.style.display = 'none';
                 }, 5000);
             });
         }
+
 
         document.addEventListener("DOMContentLoaded", function () {
             hideMessages();
