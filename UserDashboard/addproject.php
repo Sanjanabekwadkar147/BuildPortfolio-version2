@@ -15,7 +15,7 @@ $existing_projects_query = "SELECT * FROM projects WHERE id = '$user_id'";
 $result = $conn->query($existing_projects_query);
 if ($result->num_rows > 0) {
     $existing_projects = true;
-    $project_data = array(); // Array to hold project data including ID, name, description, and link
+    $project_data = array(); 
     while ($row = $result->fetch_assoc()) {
         $project_data[] = array(
             'p_id' => $row['p_id'],
@@ -33,21 +33,21 @@ if ($result->num_rows > 0) {
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['update'])) {
         // Update button clicked, enable fields
-        $existing_projects = false; // Set to false to enable fields
+        $existing_projects = false; 
     } elseif (isset($_POST['submit'])) {
         $all_inputs_valid = true;
         // Save button clicked, process form data
         $names = $_POST['p_name'];
         $descriptions = $_POST['p_description'];
-        $project_links = $_POST['project_link']; // Retrieve project links from the form
-        $project_ids = $_POST['project_id']; // Retrieve project IDs from the form
+        $project_links = $_POST['project_link'];
+        $project_ids = $_POST['project_id'];
 
-        // Loop through the submitted fields dynamically
+        
         for ($i = 0; $i < count($names); $i++) {
             $p_name = $names[$i];
             $p_description = $descriptions[$i];
-            $project_link = $project_links[$i]; // Retrieve the project link for the current iteration
-            $project_id = $project_ids[$i]; // Retrieve the project ID for the current iteration
+            $project_link = $project_links[$i];
+            $project_id = $project_ids[$i]; 
 
             // Validate project name
             if (!preg_match("/^[a-zA-Z0-9\s]+$/", $p_name)) {
