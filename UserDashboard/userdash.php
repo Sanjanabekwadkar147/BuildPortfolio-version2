@@ -254,56 +254,9 @@ if (!isset($_SESSION['resume_completed'])) {
 
 <body>
     <div class="d-flex" id="wrapper">
-    <div class="bg-white" id="sidebar-wrapper">
-            <div class="sidebar-heading text-center py-4 primary-text fs-4 fw-bold text-uppercase border-bottom">
-                <i class="fas fa-user-secret me-2"></i>Portfolio
-            </div>
-            <div class="list-group list-group-flush my-3">
-                <a href="userdash.php" class="list-group-item list-group-item-action bg-transparent second-text active">
-                    <i class="fas fa-tachometer-alt me-2"></i>Dashboard
-                </a>
-                <a href="profile.php"
-                    class="list-group-item list-group-item-action bg-transparent primary-text fw-bold">
-                    <i class="fas fa-user me-2"></i>Profile
-                </a>
-
-                <a href="skill.php"
-    class="list-group-item list-group-item-action bg-transparent second-text fw-bold <?php echo !$profile_formsubmitted ? 'disabled-link' : 'enabled-link'; ?>">
-    <i class="fas fa-tools me-2"></i>Skills
-</a>
-<div class="list-group-item list-group-item-action bg-transparent second-text fw-bold <?php echo !$skills_formsubmitted ? 'disabled' : ''; ?>">
-    <div class="dropdown">
-        <a class="dropdown-toggle <?php echo $skills_formsubmitted ? 'enabled-link' : ''; ?>" href="#"
-            role="button" id="resumeDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="fas fa-file-alt me-2"></i>Resume
-        </a>
-        <ul class="dropdown-menu" aria-labelledby="resumeDropdown">
-            <li><a class="dropdown-item <?php echo !$skills_formsubmitted ? 'disabled-link' : 'enabled-link'; ?>"
-                    href="addeducation.php"><i class="fas fa-graduation-cap me-2"></i>Education</a></li>
-            <li><a class="dropdown-item <?php echo !$resume_formsubmitted ? 'disabled-link' : 'enabled-link'; ?>"
-                    href="addproject.php"><i class="fas fa-project-diagram me-2"></i>Projects</a></li>
-            <li><a class="dropdown-item <?php echo !$project_formsubmitted ? 'disabled-link' : 'enabled-link'; ?>"
-                    href="addinternship.php"><i class="fas fa-briefcase me-2"></i>Experience/Internship</a></li>
-        </ul>
-    </div>
-</div>
-
-<a href="about.php"
-    class="list-group-item list-group-item-action bg-transparent second-text fw-bold <?php echo ($project_formsubmitted || $experience_formsubmitted) ? 'enabled-link' : 'disabled-link'; ?>">
-    <i class="fas fa-info-circle me-2"></i>About
-</a>
-<a href="choose_template.php"
-    class="list-group-item list-group-item-action bg-transparent second-text fw-bold <?php echo !$about_formsubmitted ? 'disabled-link' : 'enabled-link'; ?>">
-    <i class="fas fa-file-alt"></i> &nbsp;Choose Template
-</a>
-
-                <a href="logout.php" class="list-group-item list-group-item-action bg-transparent second-text active">
-                    <i class="fas fa-power-off me-2"></i>Logout
-                </a>
-            </div>
-
-        </div>
-
+    <?php
+        include 'header.php';
+        ?>
         <!-- Page Content -->
         <div id="page-content-wrapper">
             <nav class="navbar navbar-expand-lg navbar-light bg-transparent py-4 px-4">
@@ -312,30 +265,6 @@ if (!isset($_SESSION['resume_completed'])) {
                     <h2 class="fs-2 m-0">Dashboard</h2>
                 </div>
 
-                <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button> -->
-
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <!-- <a href="Home.php" class="nav-link second-text fw-bold">
-                            <i class="fas fa-home me-2 fs-4"></i> <!-- Adjust the font size here (e.g., fs-4) -->
-
-                        <!-- <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle second-text fw-bold" href="#" id="navbarDropdown"
-                                role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fas fa-user me-2"></i>John Doe
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#">Profile</a></li>
-                                <li><a class="dropdown-item" href="#">Settings</a></li>
-                                <li><a class="dropdown-item" href="#">Logout</a></li>
-                            </ul>
-                        </li> -->
-                    </ul>
-                </div>
             </nav>
 
             <div class="container-fluid px-4">
