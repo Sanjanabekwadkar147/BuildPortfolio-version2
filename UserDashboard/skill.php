@@ -1,15 +1,15 @@
 <?php
 session_start();
 if (!isset($_SESSION['user_id'])) {
-    // Redirect the user to the login page
-    header("Location: login.php"); // Assuming your login page file is named login.php
-    exit; // Make sure to exit after redirection to prevent further execution of the script
+    
+    header("Location: login.php"); 
+    exit; 
 }
 include 'config.php';
 
 $user_id = $_SESSION['user_id'];
 $error_message = array();
-$skills = array(); // Initialize an empty array for skills
+$skills = array();
 
 // Fetch existing skills
 $skills_query = "SELECT * FROM skills WHERE id = '$user_id'";
@@ -17,7 +17,6 @@ $skills_result = $conn->query($skills_query);
 $skills_exists = $skills_result->num_rows > 0;
 
 $skills_formsubmitted = $skills_result->num_rows > 0;
-
 
 if ($skills_exists) {
     while ($row = $skills_result->fetch_assoc()) {
@@ -27,26 +26,23 @@ if ($skills_exists) {
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['update'])) {
-        // Update button clicked, enable fields
-        $skills_exists = false; // Set to false to enable fields
+      
+        $skills_exists = false; 
     } elseif (isset($_POST['submit'])) {
-        // Clean and store skills
+       
         $skills = isset($_POST['skills']) ? $_POST['skills'] : array();
 
-        // Check for duplicate skills
-        $duplicate_skills = array();
+        // Server-side validation
         foreach ($skills as $index => $skill) {
-            if (in_array($skill, $skills, true) && array_search($skill, $skills) !== $index) {
-                $duplicate_skills[] = $skill;
+            if (!preg_match('/^[a-zA-Z0-9\s+#-]+$/', $skill) || ctype_digit($skill)) {
+                $error_message[] = " invalid skill input";
             }
         }
 
-        // If duplicate skills found, set error message
-        if (!empty($duplicate_skills)) {
-            $error_message[] = "The following skills already exist: " . implode(", ", $duplicate_skills);
+        if (!empty($error_message)) {
+         
         } else {
-            // No duplicate skills found, proceed with insertion
-            // Delete existing skills
+           
             $delete_sql = "DELETE FROM skills WHERE id = ?";
             $delete_stmt = $conn->prepare($delete_sql);
             $delete_stmt->bind_param("i", $user_id);
@@ -66,7 +62,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         $success_message = "Skills added successfully!";
                         header('location: addeducation.php');
                     }
-
                 } else {
                     echo "Error: " . $conn->error;
                 }
@@ -263,30 +258,7 @@ $conn->close();
                     <h2 class="fs-2 m-0">Dashboard</h2>
                 </div>
 
-                <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button> -->
-
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <!-- <a href="Home.php" class="nav-link second-text fw-bold">
-                            <i class="fas fa-home me-2 fs-4"></i> <!-- Adjust the font size here (e.g., fs-4) -->
-
-                        <!-- <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle second-text fw-bold" href="#" id="navbarDropdown"
-                                role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fas fa-user me-2"></i>John Doe
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#">Profile</a></li>
-                                <li><a class="dropdown-item" href="#">Settings</a></li>
-                                <li><a class="dropdown-item" href="#">Logout</a></li>
-                            </ul>
-                        </li> -->
-                    </ul>
-                </div>
+               
             </nav>
 
             <div class="container" style="width: 900px;">
@@ -343,12 +315,16 @@ $conn->close();
         };
         function hideMessages() {
             var successAlert = document.querySelector(".alert-success");
-            // var errorMessages = document.querySelectorAll(".text-danger"); // Select all error messages
-
+            var errorAlert = document.querySelector(".alert-danger");
             if (successAlert) {
                 setTimeout(function () {
                     successAlert.style.display = 'none';
-                }, 3000); // 5000 milliseconds = 5 seconds
+                }, 3000);
+            }
+            if (errorAlert) {
+                setTimeout(function () {
+                    errorAlert.style.display = 'none';
+                }, 3000);
             }
 
 
@@ -401,7 +377,7 @@ $conn->close();
                 const deletedSkill = this.parentElement.querySelector('input[type="text"]').value;
 
                 // Remove the skill input field
-                this.parentElement.remove();
+                this.parentElement.parentElement.remove();
 
                 // Send AJAX request to delete the skill from the database
                 const xhr = new XMLHttpRequest();
@@ -426,6 +402,7 @@ $conn->close();
                     }
                 };
                 xhr.send(`skill=${encodeURIComponent(deletedSkill)}`);
+                
             });
         });
 

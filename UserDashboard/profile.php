@@ -1,14 +1,14 @@
 <?php
 session_start();
 if (!isset($_SESSION['user_id'])) {
-    // Redirect the user to the login page
-    header("Location: login.php"); // Assuming your login page file is named login.php
-    exit; // Make sure to exit after redirection to prevent further execution of the script
+   
+    header("Location: login.php"); 
+    exit; 
 }
 include 'config.php';
 $user_id = $_SESSION['user_id'];
 $phone_code = "+1";
-$formSubmitted = false;  // Variable to track form submission
+$formSubmitted = false;
 
 
 $name = $profession = $email = $phone = $address = $facebook = $linkedin = $github = $twitter = $youtube = '';
@@ -41,10 +41,9 @@ if ($profile_exists) {
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['update'])) {
-        // Update button clicked, enable fields
-        $profile_exists = false; // Set to false to enable fields
+       
+        $profile_exists = false; 
     } elseif (isset($_POST['submit'])) {
-        // Save button clicked, process form data
         $phone_code = $_POST['phone_code']; 
         $name = $_POST['name'];
         $profession = $_POST['profession'];
@@ -61,6 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $professionPattern = "/^[a-zA-Z\s]+$/";
         $emailPattern = "/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/";
         $phonePattern = "/^\d{10}$/";
+      
 
         if (!preg_match($namePattern, $name)) {
             $error_message['name'] = "Name should only contain letters and whitespaces.";
@@ -71,7 +71,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (!preg_match($emailPattern, $email)) {
             $error_message['email'] = "Invalid email format.";
         } else {
-            // Additional custom validation for email
             $parts = explode('@', $email);
             if (preg_match("/^\d|[#@]/", $parts[0])) {
                 $error_message['email'] = 'Invalid email format';
@@ -79,6 +78,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         if (!preg_match($phonePattern, $phone)) {
             $error_message['phone'] = "Invalid phone number. Please enter a 10-digit number without any spaces, dashes, or decimal points.";
+        }
+        if (!empty($facebook) && !filter_var($facebook, FILTER_VALIDATE_URL)) {
+            $error_message['facebook'] = "Invalid Facebook link format.";
+        }
+        if (!empty($linkedin) && !filter_var($linkedin, FILTER_VALIDATE_URL)) {
+            $error_message['linkedin'] = "Invalid LinkedIn link format.";
+        }
+        if (!empty($github) && !filter_var($github, FILTER_VALIDATE_URL)) {
+            $error_message['github'] = "Invalid GitHub link format.";
+        }
+        if (!empty($twitter) && !filter_var($twitter, FILTER_VALIDATE_URL)) {
+            $error_message['twitter'] = "Invalid Twitter link format.";
+        }
+        if (!empty($youtube) && !filter_var($youtube, FILTER_VALIDATE_URL)) {
+            $error_message['youtube'] = "Invalid YouTube link format.";
         }
 
         if (empty($error_message)) {
@@ -232,30 +246,6 @@ $conn->close();
                     <h2 class="fs-2 m-0">Dashboard</h2>
                 </div>
 
-                <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button> -->
-
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <!-- <a href="Home.php" class="nav-link second-text fw-bold">
-                            <i class="fas fa-home me-2 fs-4"></i> Adjust the font size here (e.g., fs-4) -->
-                        
-                        <!-- <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle second-text fw-bold" href="#" id="navbarDropdown"
-                                role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fas fa-user me-2"></i>John Doe
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#">Profile</a></li>
-                                <li><a class="dropdown-item" href="#">Settings</a></li>
-                                <li><a class="dropdown-item" href="#">Logout</a></li>
-                            </ul>
-                        </li> -->
-                    </ul>
-                </div>
             </nav>
             <div class="form-container">
                 <form action="" method="post" enctype="multipart/form-data">
@@ -338,31 +328,56 @@ $conn->close();
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="facebook">Facebook</label>
-                                <input type="text" id="facebook" name="facebook" placeholder="Enter facebook link"
-                                    value="<?php echo htmlspecialchars($facebook); ?>"  <?php echo $profile_exists ? 'disabled' : ''; ?>>
-                            </div>
-                            <div class="form-group">
-                                <label for="linkedin">LinkedIn</label>
-                                <input type="text" id="linkedin" name="linkedin" placeholder="Enter linkedin link"
-                                    value="<?php echo htmlspecialchars($linkedin); ?>"  <?php echo $profile_exists ? 'disabled' : ''; ?>>
-                            </div>
-                            <div class="form-group">
-                                <label for="github">Github</label>
-                                <input type="text" id="github" name="github" placeholder="Enter github link"
-                                    value="<?php echo htmlspecialchars($github); ?>"  <?php echo $profile_exists ? 'disabled' : ''; ?>>
-                            </div>
-                            <div class="form-group">
-                                <label for="twitter">Twitter</label>
-                                <input type="text" id="twitter" name="twitter" placeholder="Enter twitter link"
-                                    value="<?php echo htmlspecialchars($twitter); ?>"  <?php echo $profile_exists ? 'disabled' : ''; ?>>
-                            </div>
-                            <div class="form-group">
-                                <label for="youtube">YouTube</label>
-                                <input type="text" id="youtube" name="youtube" placeholder="Enter youtube link"
-                                    value="<?php echo htmlspecialchars($youtube); ?>"  <?php echo $profile_exists ? 'disabled' : ''; ?>>
-                            </div>
+                           <div class="form-group">
+                    <label for="facebook">Facebook</label>
+                    <input type="text" id="facebook" name="facebook" placeholder="Enter facebook link"
+                           value="<?php echo htmlspecialchars($facebook); ?>" <?php echo $profile_exists ? 'disabled' : ''; ?>>
+                    <?php if (isset($error_message['facebook'])): ?>
+                        <div class="text-danger">
+                            <?php echo $error_message['facebook']; ?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+                <div class="form-group">
+                    <label for="linkedin">LinkedIn</label>
+                    <input type="text" id="linkedin" name="linkedin" placeholder="Enter linkedin link"
+                           value="<?php echo htmlspecialchars($linkedin); ?>" <?php echo $profile_exists ? 'disabled' : ''; ?>>
+                    <?php if (isset($error_message['linkedin'])): ?>
+                        <div class="text-danger">
+                            <?php echo $error_message['linkedin']; ?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+                <div class="form-group">
+                    <label for="github">Github</label>
+                    <input type="text" id="github" name="github" placeholder="Enter github link"
+                           value="<?php echo htmlspecialchars($github); ?>" <?php echo $profile_exists ? 'disabled' : ''; ?>>
+                    <?php if (isset($error_message['github'])): ?>
+                        <div class="text-danger">
+                            <?php echo $error_message['github']; ?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+                <div class="form-group">
+                    <label for="twitter">Twitter</label>
+                    <input type="text" id="twitter" name="twitter" placeholder="Enter twitter link"
+                           value="<?php echo htmlspecialchars($twitter); ?>" <?php echo $profile_exists ? 'disabled' : ''; ?>>
+                    <?php if (isset($error_message['twitter'])): ?>
+                        <div class="text-danger">
+                            <?php echo $error_message['twitter']; ?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+                <div class="form-group">
+                    <label for="youtube">YouTube</label>
+                    <input type="text" id="youtube" name="youtube" placeholder="Enter youtube link"
+                           value="<?php echo htmlspecialchars($youtube); ?>" <?php echo $profile_exists ? 'disabled' : ''; ?>>
+                    <?php if (isset($error_message['youtube'])): ?>
+                        <div class="text-danger">
+                            <?php echo $error_message['youtube']; ?>
+                        </div>
+                    <?php endif; ?>
+                </div>
                         </div>
                     </div>
                     <?php if (isset($success_message)): ?>
