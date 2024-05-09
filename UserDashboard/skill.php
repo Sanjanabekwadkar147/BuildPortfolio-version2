@@ -35,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Server-side validation
         foreach ($skills as $index => $skill) {
             if (!preg_match('/^[a-zA-Z0-9\s+#-]+$/', $skill) || ctype_digit($skill)) {
-                $error_message[] = " invalid skill input";
+                $error_message[] = "skill "."$skill"." is invalid";
             }
         }
 

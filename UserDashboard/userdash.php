@@ -268,45 +268,42 @@ if (!isset($_SESSION['resume_completed'])) {
             </nav>
 
             <div class="container-fluid px-4">
-                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-3 my-2">
-                    <div class="col">
-                        <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
-                            <div>
-                                <h3 class="h3-responsive">Resume</h3>
-                            </div>
-                            <i
-                                class="fas fa-file-alt fs-1-responsive primary-text border rounded-full secondary-bg p-3"></i>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
-                            <div>
-                                <h3 class="h3-responsive">Skills</h3>
-                            </div>
-                            <i
-                                class="fas fa-tools fs-1-responsive primary-text border rounded-full secondary-bg p-3"></i>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
-                            <div>
-                                <h3 class="h3-responsive">Projects</h3>
-                            </div>
-                            <i
-                                class="fas fa-project-diagram fs-1-responsive primary-text border rounded-full secondary-bg p-3"></i>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
-                            <div>
-                                <h3 class="h3-responsive">Experience</h3>
-                            </div>
-                            <i
-                                class="fas fa-briefcase fs-1-responsive primary-text border rounded-full secondary-bg p-3"></i>
-                        </div>
-                    </div>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-3 my-2">
+        <div class="col">
+            <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
+                <div>
+                    <h3 class="h3-responsive">Profile</h3>
                 </div>
+                <i class="fas fa-user fs-1-responsive primary-text border rounded-full secondary-bg p-3"></i>
             </div>
+        </div>
+        <div class="col">
+            <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
+                <div>
+                    <h3 class="h3-responsive">Skills</h3>
+                </div>
+                <i class="fas fa-tools fs-1-responsive primary-text border rounded-full secondary-bg p-3"></i>
+            </div>
+        </div>
+        <div class="col">
+            <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
+                <div>
+                    <h3 class="h3-responsive">About</h3>
+                </div>
+                <i class="fas fa-info-circle fs-1-responsive primary-text border rounded-full secondary-bg p-3"></i>
+            </div>
+        </div>
+        <div class="col">
+            <div class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded">
+                <div>
+                    <h3 class="h3-responsive">Resume</h3>
+                </div>
+                <i class="fas fa-file-alt fs-1-responsive primary-text border rounded-full secondary-bg p-3"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
 
         </div>
 
