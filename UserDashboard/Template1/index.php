@@ -47,7 +47,17 @@ if ($about_result && mysqli_num_rows($about_result) > 0) {
     $about_title = "Software Developer";
     $about_description = "I am a beginner developer with a passion for coding and learning new technologies.";
 }
+// Generate a unique token for the user
+$user_token = generateUserToken($_SESSION['user_id']);
 
+// Function to generate a unique token
+function generateUserToken($user_id) {
+    // You can use any method to generate a unique token, such as hashing the user_id
+    return md5($user_id . 'your_secret_key');
+}
+
+// Construct the shared URL with the user token
+$shared_url = 'https://buildportfolio.000webhostapp.com/Template5/index.php?token=' . $user_token;
 ?>
 
 
@@ -390,20 +400,20 @@ if ($about_result && mysqli_num_rows($about_result) > 0) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script>
-        function sharePortfolio() {
-            // Check if the Web Share API is supported
-            if (navigator.share) {
-                navigator.share({
-                    title: 'My Portfolio',
-                    text: 'Check out my portfolio!',
-                    url: window.location.href
-                }).then(() => console.log('Successful share'))
-                    .catch((error) => console.log('Error sharing:', error));
-            } else {
-                // Fallback for browsers that do not support Web Share API
-                alert('Web Share API is not supported in this browser. You can manually copy the link from the address bar.');
-            }
-        }
+       function sharePortfolio() {
+    const sharedUrl = '<?php echo $shared_url; ?>';
+
+    if (navigator.share) {
+        navigator.share({
+            title: 'My Portfolio',
+            text: 'Check out my portfolio!',
+            url: sharedUrl
+        }).then(() => console.log('Successful share'))
+          .catch((error) => console.log('Error sharing:', error));
+    } else {
+        alert('Web Share API is not supported in this browser. You can manually copy the link from the address bar.');
+    }
+}
             </script>
 
     </div>

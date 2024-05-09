@@ -9,13 +9,13 @@ include 'config.php';
 $user_id = $_SESSION['user_id'];
 $count = isset($_POST['p_name']) ? count($_POST['p_name']) : 1;
 $error_messages = array();
-$labels = array("Project 1", "Project 2", "Project 3", "Project 4", "Project 5","Project 6","Project 7","Project 8","Project 9","Project 10");
+$labels = array("Project 1", "Project 2", "Project 3", "Project 4", "Project 5", "Project 6", "Project 7", "Project 8", "Project 9", "Project 10");
 $existing_projects = false;
 $existing_projects_query = "SELECT * FROM projects WHERE id = '$user_id'";
 $result = $conn->query($existing_projects_query);
 if ($result->num_rows > 0) {
     $existing_projects = true;
-    $project_data = array(); 
+    $project_data = array();
     while ($row = $result->fetch_assoc()) {
         $project_data[] = array(
             'p_id' => $row['p_id'],
@@ -33,7 +33,7 @@ if ($result->num_rows > 0) {
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['update'])) {
         // Update button clicked, enable fields
-        $existing_projects = false; 
+        $existing_projects = false;
     } elseif (isset($_POST['submit'])) {
         $all_inputs_valid = true;
         // Save button clicked, process form data
@@ -42,24 +42,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $project_links = $_POST['project_link'];
         $project_ids = $_POST['project_id'];
 
-        
+
         for ($i = 0; $i < count($names); $i++) {
             $p_name = $names[$i];
             $p_description = $descriptions[$i];
             $project_link = $project_links[$i];
-            $project_id = $project_ids[$i]; 
+            $project_id = $project_ids[$i];
 
             // Validate project name
             if (!preg_match("/^[a-zA-Z0-9\s]+$/", $p_name)) {
                 $error_messages[$i]['p_name'] = "Project name should only contain letters, numbers, and whitespaces.";
                 $all_inputs_valid = false;
             }
-
             // Validate project description
-          if (!preg_match("/^[a-zA-Z0-9\s.,!?]*$/", $p_description)) {
-    $error_messages[$i]['p_description'] = "Description should only contain letters, numbers, whitespaces.";
-    $all_inputs_valid = false;
-}
+            if (!preg_match("/^[a-zA-Z0-9\s.,!?]*$/", $p_description) || strlen($p_description) < 20 || strlen($p_description) > 500) {
+                $error_messages[$i]['p_description'] = "Description should be between 20 and 500 characters, and it should only contain letters, numbers, whitespaces, and special characters (.,!?).";
+                $all_inputs_valid = false;
+            }
+
 
 
             // Validate project link (optional)
@@ -363,30 +363,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
         <!-- /#page-content-wrapper -->
     </div>
-<!-- Add this modal code inside the <body> tag -->
-<!-- Modal -->
-<div id="deleteConfirmationModal" class="modal fade" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="confirmationModalLabel">Confirm Deletion</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                Are you sure you want to delete this Project?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-danger" id="confirmDelete">Delete</button>
+    <!-- Add this modal code inside the <body> tag -->
+    <!-- Modal -->
+    <div id="deleteConfirmationModal" class="modal fade" tabindex="-1" aria-labelledby="confirmationModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmationModalLabel">Confirm Deletion</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete this Project?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" id="confirmDelete">Delete</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
+    <script>
         var el = document.getElementById("wrapper");
         var toggleButton = document.getElementById("menu-toggle");
 
@@ -395,11 +396,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         };
         function hideMessages() {
             var successAlert = document.querySelector(".alert-success");
-            var errorMessages = document.querySelectorAll(".text-danger"); 
+            var errorMessages = document.querySelectorAll(".text-danger");
             if (successAlert) {
                 setTimeout(function () {
                     successAlert.style.display = 'none';
-                }, 5000); 
+                }, 5000);
             }
 
             errorMessages.forEach(function (errorMessage) {
@@ -449,89 +450,90 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Delete project click handler remains the same
 
 
-          // Delete project click handler
-$(document).on("click", ".delete-project-icon", function () {
-    var projectId = $(this).data("project-id");
-    // Check if the project ID is empty or null (indicating a dynamically added project)
-    if (!projectId) {
-        // If the project ID is empty or null, simply remove the project from the DOM
-        $(this).closest('.form-group').remove();
-    } else {
-        // If the project ID is not empty or null, show the confirmation modal
-        $('#deleteConfirmationModal').modal('show');
+            // Delete project click handler
+            $(document).on("click", ".delete-project-icon", function () {
+                var projectId = $(this).data("project-id");
+                // Check if the project ID is empty or null (indicating a dynamically added project)
+                if (!projectId) {
+                    // If the project ID is empty or null, simply remove the project from the DOM
+                    $(this).closest('.form-group').remove();
+                } else {
+                    // If the project ID is not empty or null, show the confirmation modal
+                    $('#deleteConfirmationModal').modal('show');
 
-        // Store the project ID in a data attribute of the modal's delete button
-        $('#confirmDelete').data('project-id', projectId);
-    }
-});
+                    // Store the project ID in a data attribute of the modal's delete button
+                    $('#confirmDelete').data('project-id', projectId);
+                }
+            });
 
-// Confirm delete button click handler
-$('#confirmDelete').click(function () {
-    var projectId = $(this).data('project-id');
-    // Proceed with the deletion via AJAX
-    $.ajax({
-        url: 'delete_project.php',
-        type: 'post',
-        data: {
-            project_id: projectId
-        },
-        dataType: 'json', // Expect JSON response
-        success: function (response) {
-            if (response.status === 'success') {
-                // If deletion successful, reload the page
-                location.reload();
-            } else {
-                // If deletion fails, display an error message
-                alert('Failed to delete project: ' + response.message);
-            }
-        },
-        error: function () {
-            // Handle AJAX error
-            alert('Failed to delete project. Please try again later.');
-        }
-    });
-});
+            // Confirm delete button click handler
+            $('#confirmDelete').click(function () {
+                var projectId = $(this).data('project-id');
+                // Proceed with the deletion via AJAX
+                $.ajax({
+                    url: 'delete_project.php',
+                    type: 'post',
+                    data: {
+                        project_id: projectId
+                    },
+                    dataType: 'json', // Expect JSON response
+                    success: function (response) {
+                        if (response.status === 'success') {
+                            // If deletion successful, reload the page
+                            location.reload();
+                        } else {
+                            // If deletion fails, display an error message
+                            alert('Failed to delete project: ' + response.message);
+                        }
+                    },
+                    error: function () {
+                        // Handle AJAX error
+                        alert('Failed to delete project. Please try again later.');
+                    }
+                });
+            });
 
             $("form").submit(function (e) {
-        // Remove all existing error messages
-        $(".text-danger").remove();
+                // Remove all existing error messages
+                $(".text-danger").remove();
 
-        // Validation logic goes here
-        var isValid = true;
-        // Example validation for project name
-        $("input[name='p_name[]']").each(function () {
-            var projectName = $(this).val();
-            var fieldId = $(this).attr("id");
-            if (!projectName.match(/^[a-zA-Z0-9\s]+$/)) {
-                // Append error message directly after the input field
-                $(this).after('<div class="text-danger">Project name should only contain letters, numbers, and whitespaces.</div>');
-                isValid = false;
-            }
-        });
+                // Validation logic goes here
+                var isValid = true;
+                // Example validation for project name
+                $("input[name='p_name[]']").each(function () {
+                    var projectName = $(this).val();
+                    var fieldId = $(this).attr("id");
+                    if (!projectName.match(/^[a-zA-Z0-9\s]+$/)) {
+                        // Append error message directly after the input field
+                        $(this).after('<div class="text-danger">Project name should only contain letters, numbers, and whitespaces.</div>');
+                        isValid = false;
+                    }
+                });
 
-          // Validation logic for project description
-          $("textarea[name='p_description[]']").each(function () {
-            var projectDescription = $(this).val();
-            if (!projectDescription.match(/^[a-zA-Z0-9\s.,!?]*$/)) {
-                $(this).after('<div class="text-danger">Description should only contain letters, numbers, and whitespaces.</div>');
-                isValid = false;
-            }
-        });
+                // Validation logic for project description
+                $("textarea[name='p_description[]']").each(function () {
+                    var projectDescription = $(this).val();
+                    if (!projectDescription.match(/^[a-zA-Z0-9\s.,!?]*$/) || projectDescription.length < 20 || projectDescription.length > 500) {
+                        $(this).after('<div class="text-danger">Description should be between 20 and 500 characters, and it should only contain letters, numbers, whitespaces, and special characters (.,!?).</div>');
+                        isValid = false;
+                    }
+                });
 
-        // Validation logic for project link
-        $("input[name='project_link[]']").each(function () {
-            var projectLink = $(this).val();
-            if (projectLink && !projectLink.match(/^http(s)?:\/\/.*/)) {
-                $(this).after('<div class="text-danger">Invalid project link format.</div>');
-                isValid = false;
-            }
-        });
 
-        // Prevent form submission if validation fails
-        if (!isValid) {
-            e.preventDefault();
-        }
-    });
+                // Validation logic for project link
+                $("input[name='project_link[]']").each(function () {
+                    var projectLink = $(this).val();
+                    if (projectLink && !projectLink.match(/^http(s)?:\/\/.*/)) {
+                        $(this).after('<div class="text-danger">Invalid project link format.</div>');
+                        isValid = false;
+                    }
+                });
+
+                // Prevent form submission if validation fails
+                if (!isValid) {
+                    e.preventDefault();
+                }
+            });
         });
     </script>
 </body>
