@@ -1,0 +1,188 @@
+.form-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    padding-bottom: 60px;
+}
+
+.form-container form {
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, .1);
+    background: #fff;
+    text-align: center;
+    max-width: 830px;
+    /* Adjusted maximum width for responsiveness */
+    width: 100%;
+    /* Ensures the form takes full width on smaller screens */
+}
+
+.form-container form h3 {
+    font-size: 35px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.form-container form label {
+    display: block;
+    text-align: left;
+    font-size: 20px;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #333;
+}
+
+.form-container form input,
+.form-container form textarea {
+    width: 100%;
+    padding: 10px 15px;
+    font-size: 17px;
+    margin: 8px 0;
+    border-radius: 5px;
+}
+
+/* Button styles */
+.form-container form input[type="submit"],
+.form-container form input[type="button"],
+.form-container form .btn {
+    background: #fbd0d9;
+    /* Background color on hover */
+    color: crimson;
+    /* Text color on hover */
+    text-transform: capitalize;
+    font-size: 20px;
+    max-width: 150px;
+    cursor: pointer;
+    border: none;
+}
+
+/* Hover styles */
+.form-container form input[type="submit"]:hover,
+.form-container form input[type="button"]:hover,
+.form-container form .btn:hover {
+    background: crimson;
+    /* Background color */
+    color: #fff;
+    /* Text color */
+}
+
+.required-label::after {
+    content: '*';
+    color: crimson;
+    margin-left: 4px;
+}
+
+@media (max-width: 768px) {
+    .form-container form h3 {
+        font-size: 25px;
+    }
+    .form-container form label {
+        font-size: 18px;
+    }
+    .form-container form input,
+    .form-container form textarea {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 576px) {
+    .form-container {
+        padding: 10px;
+    }
+    .form-container form h3 {
+        font-size: 20px;
+    }
+    .form-container form label {
+        font-size: 16px;
+    }
+    .form-container form input,
+    .form-container form textarea {
+        font-size: 14px;
+    }
+}
+.form-group .d-flex {
+    display: flex;
+    gap: 10px; /* Adds space between the select dropdown and the input */
+}
+
+.form-control {
+    flex: 1; /* Allows the dropdown to take necessary space */
+    max-width: 100px; /* Optionally set a max width */
+}
+
+#phone {
+    flex: 3; /* Gives more space to the phone input field */
+}
+
+.delete-project-icon {
+    margin-left: auto;
+    margin-right: 10px;
+    cursor: pointer;
+    display: inline-block;
+}
+
+/* Adjust the icon size if needed */
+.delete-project-icon i {
+    font-size: 20px;
+    color: red;
+    /* You can adjust the color */
+}
+
+.label-container {
+    display: flex;
+    flex-direction: column;
+    /* Stack items vertically */
+    align-items: center;
+    /* Center items horizontally */
+}
+
+/*education*/
+.delete-education-icon {
+    margin-left: auto;
+    margin-right: 10px;
+    cursor: pointer;
+    display: inline-block;
+}
+
+/* Adjust the icon size if needed */
+.delete-education-icon i {
+    font-size: 20px;
+    color: red;
+    /* You can adjust the color */
+}
+
+.label-container {
+    display: flex;
+    flex-direction: column;
+    /* Stack items vertically */
+    align-items: center;
+    /* Center items horizontally */
+}
+
+/*experinece*/
+.delete-experience-icon {
+    margin-left: auto;
+margin-right: 10px; 
+    cursor: pointer;
+    display: inline-block;
+}
+
+/* Adjust the icon size if needed */
+.delete-experience-icon i {
+    font-size: 20px;
+    color: red;
+    /* You can adjust the color */
+}
+.label-container {
+display: flex;
+flex-direction: column; /* Stack items vertically */
+align-items: center; /* Center items horizontally */
+}
+
+
+.text-danger {
+    text-align: left; /* Align the error messages to the left */
+}
