@@ -50,8 +50,6 @@ if ($about_result && mysqli_num_rows($about_result) > 0) {
 
 ?>
 
-
-
 <!DOCTYPE html>
 <html lang="en">
 
