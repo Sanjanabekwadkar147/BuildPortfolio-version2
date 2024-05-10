@@ -186,3 +186,161 @@ align-items: center; /* Center items horizontally */
 .text-danger {
     text-align: left; /* Align the error messages to the left */
 }
+
+/*skill*/
+
+.container {
+    max-width: 100%;
+    background: #fff;
+    border-radius: 20px;
+    width: 500px;
+    padding: 20px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, .1);
+}
+
+.wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 40px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #e4e1e1;
+}
+
+.container .wrap h3 {
+    font-size: 35px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    color: #333;
+    text-align: center;
+}
+
+.add {
+    text-decoration: none;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    background: crimson;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #fff;
+    display: flex;
+   align-content: center;
+   justify-content: center;
+   align-items: center;
+}
+
+.inp-group {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    /* Create three columns */
+    gap: 10px;
+    /* Space between items */
+    margin-bottom: 20px;
+}
+
+.flex {
+    display: flex;
+    align-items: center;
+    /* Align items vertically */
+    gap: 10px;
+    /* Space between text field and delete button */
+}
+
+input[type="text"] {
+    flex-grow: 1;
+    /* Make input field take up available space */
+}
+
+.input-wrapper {
+    position: relative;
+    display: flex;
+}
+
+.input-wrapper input[type="text"] {
+    padding-right: 40px;
+    /* Make room for the delete button */
+}
+
+.delete {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    /* Make background transparent */
+    color: crimson;
+    font-size: 1.2rem;
+    cursor: pointer;
+    border: none;
+}
+
+
+input {
+    width: 100%;
+    padding: 10px 15px;
+    font-size: 17px;
+    margin: 8px 0;
+    border-radius: 5px;
+}
+
+input:focus {
+    outline: 1px solid #efefef;
+}
+
+.form-btn {
+    background: #fbd0d9;
+    color: crimson;
+    text-transform: capitalize;
+    font-size: 20px;
+    max-width: 150px;
+    cursor: pointer;
+    border: none;
+    /* Remove default button border */
+    padding: 10px 20px;
+    /* Add padding for better appearance */
+    border-radius: 5px;
+    /* Add border radius */
+}
+
+.form-btn:hover {
+    background: crimson;
+    color: #fff;
+}
+
+.btn-container {
+    text-align: center;
+    /* Center align the button */
+    margin-top: 20px;
+    /* Add margin for spacing */
+}
+
+@media (max-width: 992px) {
+    .inp-group {
+        grid-template-columns: repeat(2, 1fr);
+        /* Adjust to 2 columns for tablets */
+    }
+}
+
+@media (max-width: 768px) {
+    .inp-group {
+        grid-template-columns: repeat(1, 1fr);
+        /* Adjust to 1 column for mobile */
+    }
+
+    .container {
+        padding: 10px;
+        width: 100%;
+        /* Use the full width on smaller screens */
+        max-width: 100%;
+        /* Ensure the container does not exceed the screen width */
+    }
+}
+
+@media (max-width: 576px) {
+    .container .wrap h3 {
+        font-size: 20px;
+        /* Reduce the font size on smaller screens */
+    }
+}
