@@ -1,14 +1,23 @@
 <?php
-session_start();
 include 'config.php';
 
-// Fetch data from profile table
-$user_id = $_SESSION['user_id'];
+// Get user_id from the URL
+$user_id = isset($_GET['user_id']) ? $_GET['user_id'] : null;
 
+if (!$user_id) {
+    // If user_id is not provided in the URL, handle the error as per your application logic
+    echo "Error: User ID not provided";
+    exit();
+}
+
+
+// Fetch data from profile table
 $profile_sql = "SELECT name AS profile_name, profession, email, facebook, linkedin, github, twitter, phone, address FROM profile WHERE id = $user_id";
 $profile_result = mysqli_query($conn, $profile_sql);
 
-if ($profile_result && mysqli_num_rows($profile_result) > 0) {
+if (!$profile_result) {
+    echo "Error fetching profile data: " . mysqli_error($conn);
+} elseif (mysqli_num_rows($profile_result) > 0) {
     $profile_row = mysqli_fetch_assoc($profile_result);
     $name = $profile_row['profile_name'];
     $profession = $profile_row['profession'];
@@ -20,7 +29,6 @@ if ($profile_result && mysqli_num_rows($profile_result) > 0) {
     $phone = $profile_row['phone'];
     $address = $profile_row['address'];
 } else {
-
     $name = "Your Name";
     $profession = "I am a beginner Developer from India";
     $email = "abc@gmail.com";
@@ -35,32 +43,20 @@ if ($profile_result && mysqli_num_rows($profile_result) > 0) {
 $about_sql = "SELECT title AS about_title, profile_pic, description AS about_description FROM aboutme WHERE id = $user_id";
 $about_result = mysqli_query($conn, $about_sql);
 
-if ($about_result && mysqli_num_rows($about_result) > 0) {
+if (!$about_result) {
+    echo "Error fetching about data: " . mysqli_error($conn);
+} elseif (mysqli_num_rows($about_result) > 0) {
     $about_row = mysqli_fetch_assoc($about_result);
     $about_title = $about_row['about_title'];
-    $profile_pic = "/BuildPortfolioV2/UserDashboard/" . $about_row['profile_pic'];
-
+     $profile_pic ="/uploads/" . $about_row['profile_pic'];
     $about_description = $about_row['about_description'];
 } else {
-
     $profile_pic = "img/profile.jpg";
     $about_title = "Software Developer";
     $about_description = "I am a beginner developer with a passion for coding and learning new technologies.";
 }
-// Generate a unique token for the user
-$user_token = generateUserToken($_SESSION['user_id']);
 
-// Function to generate a unique token
-function generateUserToken($user_id) {
-    // You can use any method to generate a unique token, such as hashing the user_id
-    return md5($user_id . 'your_secret_key');
-}
-
-// Construct the shared URL with the user token
-$shared_url = 'https://buildportfolio.000webhostapp.com/Template5/index.php?token=' . $user_token;
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -98,9 +94,7 @@ $shared_url = 'https://buildportfolio.000webhostapp.com/Template5/index.php?toke
                         <li><a href="#resume" data-after="Resume">Resume</a></li>
                         <li><a href="#about" data-after="About">About</a></li>
                         <li><a href="#contact" data-after="Contact">Contact</a></li>
-                        <!-- Add a theme selector UI -->
                         <li><a href="#" id="shareBtn" onclick="sharePortfolio()">Share</a></li>
-                       
                     </ul>
                 </div>
             </div>
@@ -108,8 +102,8 @@ $shared_url = 'https://buildportfolio.000webhostapp.com/Template5/index.php?toke
     </section>
     <!-- End Header -->
 
-    <!-- Hero Section -->
-    <section id="hero">
+        <!-- Hero Section -->
+          <section id="hero">
 
         <div class="hero container">
             <div>
@@ -124,299 +118,306 @@ $shared_url = 'https://buildportfolio.000webhostapp.com/Template5/index.php?toke
                 </p>
             </div>
         </div>
-
-
+       
     </section>
-    <!-- End Hero Section -->
+
+        <!-- End Hero Section -->
 
 
-    <!-- Service Section -->
-    <section id="services">
-        <div class="services container">
-            <div class="service-top">
-                <h1 class="section-title">Skills</h1>
-            </div>
-            <div class="service-bottom">
-                <?php
-                // Fetch skills from aboutme table
-                $skills_query = "SELECT skills FROM skills WHERE id = $user_id";
-                $skills_result = mysqli_query($conn, $skills_query);
+        <!-- Service Section -->
+        <section id="services">
+            <div class="services container">
+                <div class="service-top">
+                    <h1 class="section-title">Skills</h1>
+                </div>
+                <div class="service-bottom">
+                    <?php
+                    // Fetch skills from aboutme table
+                    $skills_query = "SELECT skills FROM skills WHERE id = $user_id";
+                    $skills_result = mysqli_query($conn, $skills_query);
 
-                if ($skills_result && mysqli_num_rows($skills_result) > 0) {
-                    while ($row = mysqli_fetch_assoc($skills_result)) {
-                        // Extract skills from the row
-                        $skills = explode(",", $row['skills']);
+                    if (!$skills_result) {
+                        echo "Error fetching skills data: " . mysqli_error($conn);
+                    } elseif (mysqli_num_rows($skills_result) > 0) {
+                        while ($row = mysqli_fetch_assoc($skills_result)) {
+                            // Extract skills from the row
+                            $skills = explode(",", $row['skills']);
 
-                        // Display skills
-                        foreach ($skills as $skill) {
+                            // Display skills
+                            foreach ($skills as $skill) {
+                                echo "<div class='service-item'>";
+                                echo "<div class='icon'><img src='https://img.icons8.com/bubbles/100/000000/services.png' /></div>";
+                                echo "<h2 class='" . (strlen($skill) > 10 ? 'long-skill' : '') . "'>$skill</h2>"; // Add a CSS class for long skills
+                                echo "</div>";
+                            }
+                        }
+                    } else {
+                        // Default skills
+                        $default_skills = array(
+                            "Java",
+                            "HTML",
+                            "CSS",
+                            "JavaScript",
+                            "Problem Solving",
+                            "Soft Skills",
+                            "Networking"
+                        );
+
+                        // Display default skills
+                        foreach ($default_skills as $skill) {
                             echo "<div class='service-item'>";
                             echo "<div class='icon'><img src='https://img.icons8.com/bubbles/100/000000/services.png' /></div>";
                             echo "<h2 class='" . (strlen($skill) > 10 ? 'long-skill' : '') . "'>$skill</h2>"; // Add a CSS class for long skills
                             echo "</div>";
                         }
                     }
-                } else {
-                    // Default skills
-                    $default_skills = array(
-                        "Java",
-                        "HTML",
-                        "CSS",
-                        "JavaScript",
-                        "Problem Solving",
-                        "Soft Skills",
-                        "Networking"
-                    );
-
-                    // Display default skills
-                    foreach ($default_skills as $skill) {
-                        echo "<div class='service-item'>";
-                        echo "<div class='icon'><img src='https://img.icons8.com/bubbles/100/000000/services.png' /></div>";
-                        echo "<h2 class='" . (strlen($skill) > 10 ? 'long-skill' : '') . "'>$skill</h2>"; // Add a CSS class for long skills
-                        echo "</div>";
-                    }
-                }
-                ?>
+                    ?>
+                </div>
             </div>
-        </div>
-    </section>
-    <!-- End Service Section -->
+        </section>
+        <!-- End Service Section -->
 
-    <!-- Resume Section -->
-    <section id="resume">
-        <div class="resume container">
-            <div class="resume-top">
-                <h1 class="section-title"><span>Resume</span></h1>
-            </div><br>
-            <div class="resume-bottom">
-                <div class="resume-column">
-                    <!-- Left Column -->
-                    <div class="vertical-line"></div>
-                    <h2>Summary</h2>
+        <!-- Resume Section -->
+        <section id="resume">
+            <div class="resume container">
+                <div class="resume-top">
+                    <h1 class="section-title"><span>Resume</span></h1>
+                </div><br>
+                <div class="resume-bottom">
+                    <div class="resume-column">
+                        <!-- Left Column -->
+                        <div class="vertical-line"></div>
+                        <h2>Summary</h2>
+                        <p>
+                            <?php echo $about_description; ?>
+                        </p>
+                        <br>
+                        <h2>Education</h2>
+                        <?php
+                        $education_sql = "SELECT * FROM education WHERE id = $user_id";
+                        $education_result = mysqli_query($conn, $education_sql);
+
+                        if (!$education_result) {
+                            echo "Error fetching education data: " . mysqli_error($conn);
+                        } elseif (mysqli_num_rows($education_result) > 0) {
+                            while ($education_row = mysqli_fetch_assoc($education_result)) {
+                                echo "<div class='education-item'>";
+                                echo "<h3>" . $education_row['qualification'] . "</h3>";
+                                echo "<p>" . $education_row['university'] . " | Passing Year: " . $education_row['year'] . "</p>";
+                                echo "</div>";
+                            }
+                        } else {
+                            $default_education = array(
+                                array("qualification" => "Bachelor's Degree", "university" => "University Name", "year" => "2024"),
+                                array("qualification" => "High School Diploma", "university" => "High School Name", "year" => "2021"),
+                                array("qualification" => "School", "university" => "School Name", "year" => "2018")
+                            );
+
+                            foreach ($default_education as $education) {
+                                echo "<div class='education-item'>";
+                                echo "<h3>" . $education['qualification'] . "</h3>";
+                                echo "<p>" . $education['university'] . " | Passing Year: " . $education['year'] . "</p>";
+                                echo "</div>";
+                            }
+                        }
+                        ?>
+
+                    </div>
+
+                    <div class="resume-column">
+
+                        <h2>Projects</h2>
+                        <?php
+                        $project_sql = "SELECT * FROM projects WHERE id = $user_id";
+                        $project_result = mysqli_query($conn, $project_sql);
+
+                        if (!$project_result) {
+                            echo "Error fetching projects data: " . mysqli_error($conn);
+                        } elseif (mysqli_num_rows($project_result) > 0) {
+                            while ($project_row = mysqli_fetch_assoc($project_result)) {
+                                echo "<div class='project-item'>";
+                                echo "<h3>" . $project_row['p_name'] . "</h3>";
+                                echo "<p>" . $project_row['p_description'] . "</p>";
+                                echo "</div>";
+                            }
+                        } else {
+                            $default_projects = array(
+                                array("p_name" => "Default Project 1", "p_description" => "This is project description."),
+                                array("p_name" => "Default Project 2", "p_description" => "This is project description.")
+                            );
+
+                            foreach ($default_projects as $project) {
+                                echo "<div class='project-item'>";
+                                echo "<h3>" . $project['p_name'] . "</h3>";
+                                echo "<p>" . $project['p_description'] . "</p>";
+                                echo "</div>";
+                            }
+                        }
+                        ?>
+                        <h2>Internship</h2>
+                        <?php
+                        $internship_sql = "SELECT * FROM internships_experience WHERE id = $user_id";
+                        $internship_result = mysqli_query($conn, $internship_sql);
+
+                        if (!$internship_result) {
+                            echo "Error fetching internship data: " . mysqli_error($conn);
+                        } elseif (mysqli_num_rows($internship_result) > 0) {
+                            while ($internship_row = mysqli_fetch_assoc($internship_result)) {
+                                echo "<div class='internship-item'>";
+                                echo "<h3>" . $internship_row['name'] . "</h3>";
+                                echo "<p>" . $internship_row['company_name'] . "</p>";
+                                echo "<p>" . $internship_row['i_description'] . "</p>";
+                                echo "</div>";
+                            }
+                        } else {
+                            // Display default internship details if no records found
+                            echo "<div class='internship-item'>";
+                            echo "<h3> Internship</h3>";
+                            echo "<p>Company Name</p>";
+                            echo "<p>internship description.</p>";
+                            echo "</div>";
+                        }
+                        ?>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- End Resume Section -->
+
+
+        <!-- About Section -->
+        <section id="about">
+            <div class="about container">
+                <div class="col-left">
+                    <div class="about-img">
+                        <img src="<?php echo $profile_pic; ?>" alt="img">
+                    </div>
+                </div>
+                <div class="col-right">
+                    <h1 class="section-title">About <span>me</span></h1>
+                    <h2>
+                        <?php echo $about_title; ?>
+                    </h2>
                     <p>
                         <?php echo $about_description; ?>
                     </p>
-                    <br>
-                    <h2>Education</h2>
-                    <?php
-                    $education_sql = "SELECT * FROM education WHERE id = $user_id";
-                    $education_result = mysqli_query($conn, $education_sql);
-
-                    if ($education_result && mysqli_num_rows($education_result) > 0) {
-                        while ($education_row = mysqli_fetch_assoc($education_result)) {
-                            echo "<div class='education-item'>";
-                            echo "<h3>" . $education_row['qualification'] . "</h3>";
-                            echo "<p>" . $education_row['university'] . " | Passing Year: " . $education_row['year'] . "</p>";
-                            echo "</div>";
-                        }
-                    } else {
-                        $default_education = array(
-                            array("qualification" => "Bachelor's Degree", "university" => "University Name", "year" => "2024"),
-                            array("qualification" => "High School Diploma", "university" => "High School Name", "year" => "2021"),
-                            array("qualification" => "School", "university" => "School Name", "year" => "2018")
-                        );
-
-                        foreach ($default_education as $education) {
-                            echo "<div class='education-item'>";
-                            echo "<h3>" . $education['qualification'] . "</h3>";
-                            echo "<p>" . $education['university'] . " | Passing Year: " . $education['year'] . "</p>";
-                            echo "</div>";
-                        }
-                    }
-                    ?>
-
-                </div>
-
-                <div class="resume-column">
-
-                    <h2>Projects</h2>
-                    <?php
-                    $project_sql = "SELECT * FROM projects WHERE id = $user_id";
-                    $project_result = mysqli_query($conn, $project_sql);
-
-                    if ($project_result && mysqli_num_rows($project_result) > 0) {
-                        while ($project_row = mysqli_fetch_assoc($project_result)) {
-                            echo "<div class='project-item'>";
-                            echo "<h3>" . $project_row['p_name'] . "</h3>";
-                            echo "<p>" . $project_row['p_description'] . "</p>";
-                            echo "</div>";
-                        }
-                    } else {
-                        $default_projects = array(
-                            array("p_name" => "Default Project 1", "p_description" => "This is project description."),
-                            array("p_name" => "Default Project 2", "p_description" => "This is project description.")
-                        );
-
-                        foreach ($default_projects as $project) {
-                            echo "<div class='project-item'>";
-                            echo "<h3>" . $project['p_name'] . "</h3>";
-                            echo "<p>" . $project['p_description'] . "</p>";
-                            echo "</div>";
-                        }
-                    }
-                    ?>
-                    <h2>Internship</h2>
-                    <?php
-                    $internship_sql = "SELECT * FROM internships_experience WHERE id = $user_id";
-                    $internship_result = mysqli_query($conn, $internship_sql);
-
-                    if ($internship_result && mysqli_num_rows($internship_result) > 0) {
-                        while ($internship_row = mysqli_fetch_assoc($internship_result)) {
-                            echo "<div class='internship-item'>";
-                            echo "<h3>" . $internship_row['name'] . "</h3>";
-                            echo "<p>" . $internship_row['company_name'] . "</p>";
-                            echo "<p>" . $internship_row['i_description'] . "</p>";
-                            echo "</div>";
-                        }
-                    } else {
-                        // Display default internship details if no records found
-                        echo "<div class='internship-item'>";
-                        echo "<h3> Internship</h3>";
-                        echo "<p>Company Name</p>";
-                        echo "<p>internship description.</p>";
-                        echo "</div>";
-                    }
-                    ?>
+                    <!-- <a href="#" class="cta">Download Resume</a> -->
                 </div>
             </div>
-        </div>
-    </section>
-    <!-- End Resume Section -->
+        </section>
+        <!-- End About Section -->
 
-
-    <!-- About Section -->
-    <section id="about">
-        <div class="about container">
-            <div class="col-left">
-                <div class="about-img">
-                    <img src="<?php echo $profile_pic; ?>" alt="Profile Picture">
+        <!-- Contact Section -->
+        <section id="contact">
+            <div class="contact container">
+                <div>
+                    <h1 class="section-title">Contact <span>info</span></h1>
                 </div>
+                <div class="contact-items">
+                    <div class="contact-item">
+                        <div class="icon"><img src="https://img.icons8.com/bubbles/100/000000/phone.png" /></div>
+                        <div class="contact-info">
+                            <h1>Phone</h1>
+                            <h2>+91
+                                <?php echo $phone; ?>
+                            </h2>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="icon"><img src="https://img.icons8.com/bubbles/100/000000/new-post.png" /></div>
+                        <div class="contact-info">
+                            <h1>Email</h1>
+                            <h2>
+                                <?php echo $email; ?>
+                            </h2>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="icon"><img src="https://img.icons8.com/bubbles/100/000000/map-marker.png" /></div>
+                        <div class="contact-info">
+                            <h1>Address</h1>
+                            <h2>
+                                <?php echo $address; ?>
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-container">
 
+                    <form action="https://api.web3forms.com/submit" method="post">
+                        <div class="form-row">
+                            <input type="hidden" name="access_key" value="126fd1cd-ff7b-4a9d-a3b2-6d2b6a83f6b9">
+                            <input type="text" name="name" placeholder="Your Name">
+                            <input type="email" name="email" placeholder="Your Email">
+                        </div>
+                        <input type="text" name="subject" placeholder="Subject">
+                        <textarea name='message' placeholder="Message"></textarea>
+                        <input type="submit" name="submit" value="SEND MESSAGE" class="form-btn">
+                    </form>
+
+                </div>
             </div>
-            <div class="col-right">
-                <h1 class="section-title">About <span>me</span></h1>
+        </section>
+        <!-- End Contact Section -->
+
+        <!-- Footer -->
+        <section id="footer">
+            <div class="footer container">
+                <div class="brand">
+                    <h1><span>
+                            <?php echo $name; ?>
+                    </h1>
+                </div>
                 <h2>
-                    <?php echo $about_title; ?>
+                    <?php echo $profession; ?>
                 </h2>
-                <p>
-                    <?php echo $about_description; ?>
+                <div class="social-icon">
+                    <div class="social-item">
+                        <a href="<?php echo $facebook; ?>"><img
+                                src="https://img.icons8.com/bubbles/100/000000/facebook-new.png" /></a>
+                    </div>
+                    <div class="social-item">
+                        <a href="<?php echo $github; ?>"><img
+                                src="https://img.icons8.com/?size=80&id=118553&format=png" /></a>
+                    </div>
+                    <div class="social-item">
+                        <a href="<?php echo $twitter; ?>"><img
+                                src="https://img.icons8.com/?size=80&id=108650&format=png" /></a>
+                    </div>
+                    <div class="social-item">
+                        <a href="<?php echo $linkedin; ?>"><img
+                                src="https://img.icons8.com/?size=80&id=108812&format=png" /></a>
+                    </div>
+                </div>
+                <p>Copyright © 2020
+                    <?php echo $name; ?>. All rights reserved
                 </p>
-                <!-- <a href="#" class="cta">Download Resume</a> -->
             </div>
-        </div>
-    </section>
-    <!-- End About Section -->
-
-    <!-- Contact Section -->
-    <section id="contact">
-        <div class="contact container">
-            <div>
-                <h1 class="section-title">Contact <span>info</span></h1>
-            </div>
-            <div class="contact-items">
-                <div class="contact-item">
-                    <div class="icon"><img src="https://img.icons8.com/bubbles/100/000000/phone.png" /></div>
-                    <div class="contact-info">
-                        <h1>Phone</h1>
-                        <h2>+91
-                            <?php echo $phone; ?>
-                        </h2>
-                    </div>
-                </div>
-                <div class="contact-item">
-                    <div class="icon"><img src="https://img.icons8.com/bubbles/100/000000/new-post.png" /></div>
-                    <div class="contact-info">
-                        <h1>Email</h1>
-                        <h2>
-                            <?php echo $email; ?>
-                        </h2>
-                    </div>
-                </div>
-                <div class="contact-item">
-                    <div class="icon"><img src="https://img.icons8.com/bubbles/100/000000/map-marker.png" /></div>
-                    <div class="contact-info">
-                        <h1>Address</h1>
-                        <h2>
-                            <?php echo $address; ?>
-                        </h2>
-                    </div>
-                </div>
-            </div>
-            <div class="form-container">
-
-                <form action="https://api.web3forms.com/submit" method="post">
-                    <div class="form-row">
-                        <input type="hidden" name="access_key" value="126fd1cd-ff7b-4a9d-a3b2-6d2b6a83f6b9">
-                        <input type="text" name="name" placeholder="Your Name">
-                        <input type="email" name="email" placeholder="Your Email">
-                    </div>
-                    <input type="text" name="subject" placeholder="Subject">
-                    <textarea name='message' placeholder="Message"></textarea>
-                    <input type="submit" name="submit" value="SEND MESSAGE" class="form-btn">
-                </form>
-
-            </div>
-        </div>
-    </section>
-    <!-- End Contact Section -->
-
-    <!-- Footer -->
-    <section id="footer">
-        <div class="footer container">
-            <div class="brand">
-                <h1><span>
-                        <?php echo $name; ?>
-                </h1>
-            </div>
-            <h2>
-                <?php echo $profession; ?>
-            </h2>
-            <div class="social-icon">
-                <div class="social-item">
-                    <a href="<?php echo $facebook; ?>"><img
-                            src="https://img.icons8.com/bubbles/100/000000/facebook-new.png" /></a>
-                </div>
-                <div class="social-item">
-                    <a href="<?php echo $github; ?>"><img
-                            src="https://img.icons8.com/?size=80&id=118553&format=png" /></a>
-                </div>
-                <div class="social-item">
-                    <a href="<?php echo $twitter; ?>"><img
-                            src="https://img.icons8.com/?size=80&id=108650&format=png" /></a>
-                </div>
-                <div class="social-item">
-                    <a href="<?php echo $linkedin; ?>"><img
-                            src="https://img.icons8.com/?size=80&id=108812&format=png" /></a>
-                </div>
-            </div>
-            <p>Copyright © 2020
-                <?php echo $name; ?>. All rights reserved
-            </p>
-        </div>
-    </section>
-    <!-- End Footer -->
+        </section>
+        <!-- End Footer -->
 
 
-    <script src="./app.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+        <script src="./app.js"></script>
+        <!-- For jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script>
-       function sharePortfolio() {
-    const sharedUrl = '<?php echo $shared_url; ?>';
-
-    if (navigator.share) {
-        navigator.share({
-            title: 'My Portfolio',
-            text: 'Check out my portfolio!',
-            url: sharedUrl
-        }).then(() => console.log('Successful share'))
-          .catch((error) => console.log('Error sharing:', error));
-    } else {
-        alert('Web Share API is not supported in this browser. You can manually copy the link from the address bar.');
+   <script>
+    function sharePortfolio() {
+        // Check if the Web Share API is supported
+        if (navigator.share) {
+            navigator.share({
+                title: 'My Portfolio',
+                text: 'Check out my portfolio!',
+                url: window.location.href
+            }).then(() => console.log('Successful share'))
+            .catch((error) => console.log('Error sharing:', error));
+        } else {
+            // Fallback for browsers that do not support Web Share API
+            alert('Web Share API is not supported in this browser. You can manually copy the link from the address bar.');
+        }
     }
-}
-            </script>
+  
+</script>
 
-    </div>
 
 </body>
 

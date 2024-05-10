@@ -1,9 +1,16 @@
 <?php
-session_start();
 include 'config.php';
 
-// Fetch data from profile table
-$user_id = $_SESSION['user_id'];
+session_start();
+$user_id = isset($_GET['user_id']) ? $_GET['user_id'] : null;
+
+if (!$user_id) {
+    // If user_id is not provided in the URL, handle the error as per your application logic
+    echo "Error: User ID not provided";
+    exit();
+}
+
+
 
 $profile_sql = "SELECT name AS profile_name, profession, email, facebook, linkedin, github, twitter, phone, address FROM profile WHERE id = $user_id";
 $profile_result = mysqli_query($conn, $profile_sql);
