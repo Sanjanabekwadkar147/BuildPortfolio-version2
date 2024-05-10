@@ -1,7 +1,8 @@
 <?php
+
 include 'config.php';
 
-session_start();
+
 $user_id = isset($_GET['user_id']) ? $_GET['user_id'] : null;
 
 if (!$user_id) {
