@@ -189,7 +189,11 @@ $conn->close();
         .form-container form textarea {
             font-size: 16px;
         }
-    }    </style>
+    }
+    .text-danger {
+    text-align: left; /* Align the error messages to the left */
+}
+    </style>
     <title>Portfolio</title>
 </head>
 

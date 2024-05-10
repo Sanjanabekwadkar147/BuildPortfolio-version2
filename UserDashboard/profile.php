@@ -229,6 +229,10 @@ $conn->close();
 #phone {
     flex: 3; /* Gives more space to the phone input field */
 }
+.text-danger {
+    text-align: left; /* Align the error messages to the left */
+}
+
     </style>
     <title>Portfolio</title>
 </head>

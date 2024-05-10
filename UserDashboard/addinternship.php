@@ -252,7 +252,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     flex-direction: column; /* Stack items vertically */
     align-items: center; /* Center items horizontally */
 }
-
+.text-danger {
+    text-align: left; /* Align the error messages to the left */
+}
         
     </style>
     <title>Portfolio</title>

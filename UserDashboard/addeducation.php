@@ -246,6 +246,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             align-items: center;
             /* Center items horizontally */
         }
+
+        .text-danger {
+            text-align: left;
+            /* Align the error messages to the left */
+        }
     </style>
     <title>Portfolio</title>
 </head>
@@ -357,27 +362,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
 
     </div>
-    
+
 
     </div>
 
-    <div id="confirmationModal" class="modal fade" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="confirmationModalLabel">Confirm Deletion</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                Are you sure you want to delete this Education?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Delete</button>
+    <div id="confirmationModal" class="modal fade" tabindex="-1" aria-labelledby="confirmationModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmationModalLabel">Confirm Deletion</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete this Education?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Delete</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
@@ -389,20 +395,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             el.classList.toggle("toggled");
         };
 
-        document.addEventListener("DOMContentLoaded", function() {
-    var maxForms = 3; // Maximum number of additional forms allowed
-    var existingFormsCount = <?php echo $count; ?>; // Get the count of existing forms
-    var remainingForms = maxForms - existingFormsCount; // Calculate remaining forms allowed
-    
-    var addMoreButton = document.getElementById("showFormAgainButton");
-    
-    if (remainingForms <= 0) {
-        addMoreButton.style.display = 'none'; // Hide the "Add More" button if the maximum limit is reached
-    }
-    
-    addMoreButton.addEventListener("click", function() {
-        if (remainingForms > 0) {
-            var newEducationForm = `
+        document.addEventListener("DOMContentLoaded", function () {
+            var maxForms = 3; // Maximum number of additional forms allowed
+            var existingFormsCount = <?php echo $count; ?>; // Get the count of existing forms
+            var remainingForms = maxForms - existingFormsCount; // Calculate remaining forms allowed
+
+            var addMoreButton = document.getElementById("showFormAgainButton");
+
+            if (remainingForms <= 0) {
+                addMoreButton.style.display = 'none'; // Hide the "Add More" button if the maximum limit is reached
+            }
+
+            addMoreButton.addEventListener("click", function () {
+                if (remainingForms > 0) {
+                    var newEducationForm = `
                 <div class="label-container">
                     <label style="text-align: center;">New Education:</label>
                     <label class="delete-education-icon" title="Delete Education">
@@ -427,36 +433,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
                 <input type="hidden" name="e_id[]" value="">
             `;
-            var formFieldsContainer = document.querySelector(".form-fields-container");
-            var newFormWrapper = document.createElement('div');
-            newFormWrapper.classList.add('new-form-wrapper');
-            newFormWrapper.innerHTML = newEducationForm;
-            formFieldsContainer.appendChild(newFormWrapper);
+                    var formFieldsContainer = document.querySelector(".form-fields-container");
+                    var newFormWrapper = document.createElement('div');
+                    newFormWrapper.classList.add('new-form-wrapper');
+                    newFormWrapper.innerHTML = newEducationForm;
+                    formFieldsContainer.appendChild(newFormWrapper);
 
-            // Decrease the remaining forms count
-            remainingForms--;
+                    // Decrease the remaining forms count
+                    remainingForms--;
 
-            // Hide the "Add More" button if the maximum limit is reached
-            if (remainingForms <= 0) {
-                addMoreButton.style.display = 'none';
-            }
+                    // Hide the "Add More" button if the maximum limit is reached
+                    if (remainingForms <= 0) {
+                        addMoreButton.style.display = 'none';
+                    }
 
-            // Add event listener to the newly added delete icon
-            var deleteIcon = newFormWrapper.querySelector('.delete-education-icon');
-            deleteIcon.addEventListener('click', function() {
-                newFormWrapper.remove(); // Remove the entire form field container
+                    // Add event listener to the newly added delete icon
+                    var deleteIcon = newFormWrapper.querySelector('.delete-education-icon');
+                    deleteIcon.addEventListener('click', function () {
+                        newFormWrapper.remove(); // Remove the entire form field container
 
-                // Increase the remaining forms count when a form is removed
-                remainingForms++;
+                        // Increase the remaining forms count when a form is removed
+                        remainingForms++;
 
-                // Show the "Add More" button when a form is removed and the maximum limit is not reached
-                if (remainingForms > 0) {
-                    addMoreButton.style.display = 'block';
+                        // Show the "Add More" button when a form is removed and the maximum limit is not reached
+                        if (remainingForms > 0) {
+                            addMoreButton.style.display = 'block';
+                        }
+                    });
                 }
             });
-        }
-    });
-});
+        });
         function hideMessages() {
             var successAlert = document.querySelector(".alert-success");
             var errorMessages = document.querySelectorAll(".text-danger"); // Select all error messages
@@ -479,30 +485,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             hideMessages();
         });
         document.addEventListener("DOMContentLoaded", function () {
-        document.querySelectorAll('.delete-education-icon').forEach(function (deleteIcon) {
-            deleteIcon.addEventListener('click', function () {
-                var educationId = this.getAttribute('data-education-id');
-                var confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
-                confirmDeleteBtn.addEventListener('click', function() {
-                    // Send AJAX request to delete the education
-                    var xhr = new XMLHttpRequest();
-                    xhr.open('POST', 'delete_education.php', true);
-                    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-                    xhr.onload = function () {
-                        if (xhr.status === 200) {
-                            // Reload the page or update the UI as needed
-                            location.reload();
-                        }
-                    };
-                    xhr.send('education_id=' + educationId);
-                });
+            document.querySelectorAll('.delete-education-icon').forEach(function (deleteIcon) {
+                deleteIcon.addEventListener('click', function () {
+                    var educationId = this.getAttribute('data-education-id');
+                    var confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+                    confirmDeleteBtn.addEventListener('click', function () {
+                        // Send AJAX request to delete the education
+                        var xhr = new XMLHttpRequest();
+                        xhr.open('POST', 'delete_education.php', true);
+                        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                        xhr.onload = function () {
+                            if (xhr.status === 200) {
+                                // Reload the page or update the UI as needed
+                                location.reload();
+                            }
+                        };
+                        xhr.send('education_id=' + educationId);
+                    });
 
-                // Show the confirmation modal
-                var confirmationModal = new bootstrap.Modal(document.getElementById('confirmationModal'));
-                confirmationModal.show();
+                    // Show the confirmation modal
+                    var confirmationModal = new bootstrap.Modal(document.getElementById('confirmationModal'));
+                    confirmationModal.show();
+                });
             });
         });
-    });
         $("form").submit(function (e) {
             // Remove all existing error messages
             $(".text-danger").remove();
