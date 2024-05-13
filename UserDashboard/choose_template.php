@@ -90,8 +90,8 @@ $conn->close();
             <div class="card">
                 <img src="img/template2.png" class="card-img-top" alt="Template 1">
                 <div class="card-body">
-                    <a href="/Template1/index.php?user_id=<?php echo $user_id; ?>" class="btn btn-primary" target="_blank">Explore Portfolio</a>&nbsp;
-                    <a href="/Template1/template1.php?user_id=<?php echo $user_id; ?>" class="btn btn-primary" target="_blank">Edit Template</a>
+                    <a href="Template1/index.php?user_id=<?php echo $user_id; ?>" class="btn btn-primary" target="_blank">Explore Portfolio</a>&nbsp;
+                    <a href="Template1/template1.php?user_id=<?php echo $user_id; ?>" class="btn btn-primary" target="_blank">Edit Template</a>
                 </div>
             </div>
         </div>

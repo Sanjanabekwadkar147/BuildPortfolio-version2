@@ -120,7 +120,144 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
     <title>Portfolio</title>
-    <link rel="stylesheet" href="global.css" />
+    <!-- <link rel="stylesheet" href="global.css" /> -->
+    <style>
+        .form-container {
+            min-height: 100vh;
+            display: flex;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            padding-bottom: 60px;
+        }
+
+        .form-container form {
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, .1);
+            background: #fff;
+            text-align: center;
+            max-width: 800px;
+            /* Adjusted maximum width for responsiveness */
+            width: 100%;
+            /* Ensures the form takes full width on smaller screens */
+        }
+
+        .form-container form h3 {
+            font-size: 35px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .form-container form label {
+            display: block;
+            text-align: left;
+            font-size: 20px;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .form-container form input,
+        .form-container form textarea {
+            width: 100%;
+            padding: 10px 15px;
+            font-size: 17px;
+            margin: 8px 0;
+            border-radius: 5px;
+        }
+
+
+        /* Button styles */
+        .form-container form input[type="submit"],
+        .form-container form input[type="button"],
+        .form-container form .btn {
+
+            background: #fbd0d9;
+            /* Background color on hover */
+            color: crimson;
+            /* Text color on hover */
+            text-transform: capitalize;
+            font-size: 20px;
+            max-width: 150px;
+            cursor: pointer;
+            border: none;
+        }
+
+        /* Hover styles */
+        .form-container form input[type="submit"]:hover,
+        .form-container form input[type="button"]:hover,
+        .form-container form .btn:hover {
+            background: crimson;
+            /* Background color */
+            color: #fff;
+            /* Text color */
+
+        }
+
+        .required-label::after {
+            content: '*';
+            color: crimson;
+            margin-left: 4px;
+        }
+
+        @media (max-width: 768px) {
+            .form-container form h3 {
+                font-size: 25px;
+            }
+
+            .form-container form label {
+                font-size: 18px;
+            }
+
+            .form-container form input,
+            .form-container form textarea {
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .form-container {
+                padding: 10px;
+            }
+
+            .form-container form h3 {
+                font-size: 20px;
+            }
+
+            .form-container form label {
+                font-size: 16px;
+            }
+
+            .form-container form input,
+            .form-container form textarea {
+                font-size: 14px;
+            }
+        }
+        .delete-experience-icon {
+            margin-left: auto;
+    margin-right: 10px; 
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        /* Adjust the icon size if needed */
+        .delete-experience-icon i {
+            font-size: 20px;
+            color: red;
+            /* You can adjust the color */
+        }
+        .label-container {
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center items horizontally */
+}
+
+        
+    </style>
+
 </head>
 
 <body>
@@ -134,31 +271,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="d-flex align-items-center">
                     <i class="fas fa-align-left primary-text fs-4 me-3" id="menu-toggle"></i>
                     <h2 class="fs-2 m-0">Dashboard</h2>
-                </div>
-
-                <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button> -->
-
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <!-- <a href="Home.php" class="nav-link second-text fw-bold">
-                            <i class="fas fa-home me-2 fs-4"></i> <!-- Adjust the font size here (e.g., fs-4) -->
-                        
-                        <!-- <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle second-text fw-bold" href="#" id="navbarDropdown"
-                                role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fas fa-user me-2"></i>John Doe
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#">Profile</a></li>
-                                <li><a class="dropdown-item" href="#">Settings</a></li>
-                                <li><a class="dropdown-item" href="#">Logout</a></li>
-                            </ul>
-                        </li> -->
-                    </ul>
                 </div>
             </nav>
 <?php

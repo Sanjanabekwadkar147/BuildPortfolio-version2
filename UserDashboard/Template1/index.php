@@ -1,7 +1,7 @@
 <?php
 include 'config.php';
 
-// Get user_id from the URL
+session_start();
 $user_id = isset($_GET['user_id']) ? $_GET['user_id'] : null;
 
 if (!$user_id) {
@@ -9,6 +9,7 @@ if (!$user_id) {
     echo "Error: User ID not provided";
     exit();
 }
+
 
 
 // Fetch data from profile table
@@ -48,7 +49,7 @@ if (!$about_result) {
 } elseif (mysqli_num_rows($about_result) > 0) {
     $about_row = mysqli_fetch_assoc($about_result);
     $about_title = $about_row['about_title'];
-     $profile_pic ="/uploads/" . $about_row['profile_pic'];
+   $profile_pic = "/BuildPortfolioV2/UserDashboard/" . $about_row['profile_pic'];
     $about_description = $about_row['about_description'];
 } else {
     $profile_pic = "img/profile.jpg";
