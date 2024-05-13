@@ -67,6 +67,8 @@ if ($about_result && mysqli_num_rows($about_result) > 0) {
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="print.css" media="print">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.21.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" id="fontStylesheet">
+
     <title>Portfolio Website</title>
 
 </head>
@@ -93,9 +95,17 @@ if ($about_result && mysqli_num_rows($about_result) > 0) {
                         <li><a href="#resume" data-after="Resume">Resume</a></li>
                         <li><a href="#about" data-after="About">About</a></li>
                         <li><a href="#contact" data-after="Contact">Contact</a></li>
-                        <!-- Add a theme selector UI -->
-                       
                         <li><a href="#" id="shareBtn" onclick="sharePortfolio()">Share</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropbtn">Font Style</a>
+                            <div class="dropdown-content">
+                                <a href="#" onclick="applyFontStyle('Arial')">Arial</a>
+                                <a href="#" onclick="applyFontStyle('Times New Roman')">Times New Roman</a>
+                                <a href="#" onclick="applyFontStyle('Calibri')">Calibri</a>
+                                <!-- Add more font styles as needed -->
+                            </div>
+                        </li>
+                        
                         <input type="color" id="themeSelector" value="#ff0000">
                     </ul>
                 </div>
@@ -110,9 +120,9 @@ if ($about_result && mysqli_num_rows($about_result) > 0) {
         <div class="hero container">
             <div>
 
-                <h1>Hello, <span></span></h1>
-                <h1>My Name is <span></span></h1>
-                <h1>
+                <h1 class="resizable-text" onclick="toggleFontSize(this)">Hello, <span></span></h1>
+                <h1 class="resizable-text" onclick="toggleFontSize(this)">My Name is <span></span></h1>
+                <h1 class="resizable-text" onclick="toggleFontSize(this)">
                     <?php echo $name; ?><span></span>
                 </h1>
                 <p>
@@ -391,7 +401,6 @@ if ($about_result && mysqli_num_rows($about_result) > 0) {
     </section>
     <!-- End Footer -->
 
-
     <script src="./app.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -426,18 +435,34 @@ if ($about_result && mysqli_num_rows($about_result) > 0) {
 
             reader.readAsDataURL(file);
         }
-     // Get the theme selector element
-const themeSelector = document.getElementById('themeSelector');
+        // Get the theme selector element
+        const themeSelector = document.getElementById('themeSelector');
 
-// Add event listener to handle theme change
-themeSelector.addEventListener('input', function () {
-    // Get the selected theme color
-    const selectedColor = themeSelector.value;
+        // Add event listener to handle theme change
+        themeSelector.addEventListener('input', function () {
+            // Get the selected theme color
+            const selectedColor = themeSelector.value;
 
-    // Update the CSS custom property with the selected color
-    document.documentElement.style.setProperty('--primary-color', selectedColor);
-});
-
+            // Update the CSS custom property with the selected color
+            document.documentElement.style.setProperty('--primary-color', selectedColor);
+        });
+        // Function to apply font style
+        function applyFontStyle(fontFamily) {
+            // Change the font family of relevant elements
+            document.body.style.fontFamily = fontFamily;
+        }
+        
+         function toggleFontSize(element) {
+          
+            let currentSize = window.getComputedStyle(element).getPropertyValue('font-size');                 
+            currentSize = parseFloat(currentSize);
+            const fontSizes = [12, 16, 20, 24, 28, 32, 36, 40, 44, 48, 52, 56, 60];
+            const currentIndex = fontSizes.indexOf(currentSize);
+            const nextIndex = (currentIndex + 1) % fontSizes.length;
+            
+            element.style.fontSize = fontSizes[nextIndex] + 'px';
+        }
+        
 
     </script>
 

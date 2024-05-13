@@ -1021,3 +1021,96 @@ p {
 }
 
 /* End  Media Query For Desktop */
+/* Dropdown menu */
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    background-color: #fff; /* Background color */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Box shadow */
+    z-index: 1000; /* Ensure dropdown is on top of other elements */
+    padding: 10px 0; /* Padding */
+    border-radius: 4px; /* Border radius */
+}
+
+/* Dropdown menu items */
+.dropdown-menu li {
+    display: block;
+}
+
+/* Dropdown menu links */
+.dropdown-menu li a {
+    display: block;
+    padding: 10px 20px; /* Padding */
+    color: #333; /* Text color */
+    text-decoration: none; /* Remove underline */
+    transition: background-color 0.3s ease; /* Smooth transition */
+}
+
+/* Dropdown menu link hover effect */
+.dropdown-menu li a:hover {
+    background-color: #f0f0f0; /* Background color on hover */
+}
+
+/* Show dropdown menu when parent li is hovered */
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+/* Position the dropdown menu relative to its parent */
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+}
+/* Style the font style dropdown */
+#fontSelector {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: transparent;
+    border: none;
+    color: #fff; /* Change color as per your design */
+    font-size: 16px; /* Adjust font size as needed */
+    cursor: pointer;
+}
+
+#fontSelector option {
+    background-color: #333; /* Change background color as per your design */
+}
+
+/* Dropdown Button */
+.dropbtn {
+font-size: 16px;
+border: none;
+outline: none;
+color: white;
+padding: 14px 16px;
+background-color: inherit;
+font-family: inherit;
+margin: 0;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+display: none;
+position: absolute;
+background-color: #f9f9f9;
+min-width: 160px;
+box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+color: black;
+padding: 12px 16px;
+text-decoration: none;
+display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #ddd;}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {display: block;}
+
