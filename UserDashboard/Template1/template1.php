@@ -187,7 +187,7 @@ if ($about_result && mysqli_num_rows($about_result) > 0) {
     <!-- End Service Section -->
 
     <!-- Resume Section -->
-    <section id="resume">
+    <section id="resume" style="background-image:url('<?php echo $background_image; ?>');">
         <div class="resume container">
             <div class="resume-top">
                 <h1 class="section-title"><span>Resume</span></h1>
@@ -284,6 +284,7 @@ if ($about_result && mysqli_num_rows($about_result) > 0) {
                 </div>
             </div>
         </div>
+        <input type="file" id="backgroundInput" style="display: none;" accept="image/*">
     </section>
     <!-- End Resume Section -->
 
@@ -419,30 +420,34 @@ if ($about_result && mysqli_num_rows($about_result) > 0) {
             }
         }
         function changeBackground() {
-            document.getElementById('backgroundInput').click();
-        }
-        document.getElementById('backgroundInput').addEventListener('change', function(event) {
-            const file = event.target.files[0];
-            const formData = new FormData();
-            formData.append('background', file);
-            formData.append('user_id', '<?php echo $user_id; ?>');
+        document.getElementById('backgroundInput').click();
+    }
 
-            fetch('upload_background.php', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    document.getElementById('hero').style.backgroundImage = `url(${data.imageUrl})`;
-                } else {
-                    alert('Error uploading image: ' + data.message);
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
+    document.getElementById('backgroundInput').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        const formData = new FormData();
+        formData.append('background', file);
+        formData.append('user_id', '<?php echo $user_id; ?>');
+
+        fetch('upload_background.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Update the background image of both hero and resume sections
+                document.getElementById('hero').style.backgroundImage = `url(${data.imageUrl})`;
+                document.getElementById('resume').style.backgroundImage = `url(${data.imageUrl})`;
+            } else {
+                alert('Error uploading image: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
         });
+    });
+    
         const themeSelector = document.getElementById('themeSelector');
 
         // Add event listener to handle theme change
