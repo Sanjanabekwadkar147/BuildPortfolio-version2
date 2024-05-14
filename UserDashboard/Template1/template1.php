@@ -109,7 +109,7 @@ if ($about_result && mysqli_num_rows($about_result) > 0) {
                                 <!-- Add more font styles as needed -->
                             </div>
                         </li>
-                        
+
                         <input type="color" id="themeSelector" value="#ff0000">
                     </ul>
                 </div>
@@ -406,80 +406,108 @@ if ($about_result && mysqli_num_rows($about_result) > 0) {
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script>
         function sharePortfolio() {
-            // Check if the Web Share API is supported
+            const selectedColor = themeSelector.value;
+            const currentUrl = new URL(window.location.href);
+            currentUrl.searchParams.set('theme', selectedColor);
+
             if (navigator.share) {
                 navigator.share({
                     title: 'My Portfolio',
                     text: 'Check out my portfolio!',
-                    url: window.location.href
+                    url: currentUrl.href
                 }).then(() => console.log('Successful share'))
                     .catch((error) => console.log('Error sharing:', error));
             } else {
-                // Fallback for browsers that do not support Web Share API
                 alert('Web Share API is not supported in this browser. You can manually copy the link from the address bar.');
             }
         }
         function changeBackground() {
-        document.getElementById('backgroundInput').click();
-    }
+            document.getElementById('backgroundInput').click();
+        }
 
-    document.getElementById('backgroundInput').addEventListener('change', function(event) {
-        const file = event.target.files[0];
-        const formData = new FormData();
-        formData.append('background', file);
-        formData.append('user_id', '<?php echo $user_id; ?>');
+        document.getElementById('backgroundInput').addEventListener('change', function (event) {
+            const file = event.target.files[0];
+            const formData = new FormData();
+            formData.append('background', file);
+            formData.append('user_id', '<?php echo $user_id; ?>');
 
-        fetch('upload_background.php', {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                // Update the background image of both hero and resume sections
-                document.getElementById('hero').style.backgroundImage = `url(${data.imageUrl})`;
-                document.getElementById('resume').style.backgroundImage = `url(${data.imageUrl})`;
-            } else {
-                alert('Error uploading image: ' + data.message);
+            fetch('upload_background.php', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        document.getElementById('hero').style.backgroundImage = `url(${data.imageUrl})`;
+                        document.getElementById('resume').style.backgroundImage = `url(${data.imageUrl})`;
+                    } else {
+                        alert('Error uploading image: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        });
+        function applyThemeColor(color) {
+            document.documentElement.style.setProperty('--primary-color', color);
+            localStorage.setItem('themeColor', color);
+        }
+
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const themeColor = urlParams.get('theme') || localStorage.getItem('themeColor');
+
+            if (themeColor) {
+                applyThemeColor(themeColor);
+                themeSelector.value = themeColor;
             }
-        })
-        .catch(error => {
-            console.error('Error:', error);
         });
-    });
-    
+
         const themeSelector = document.getElementById('themeSelector');
-
-        // Add event listener to handle theme change
         themeSelector.addEventListener('input', function () {
-            // Get the selected theme color
             const selectedColor = themeSelector.value;
-
-            // Update the CSS custom property with the selected color
-            document.documentElement.style.setProperty('--primary-color', selectedColor);
+            applyThemeColor(selectedColor);
         });
-        // Function to apply font style
+
+
         function applyFontStyle(fontFamily) {
-            // Change the font family of relevant elements
             document.body.style.fontFamily = fontFamily;
         }
-        
-         function toggleFontSize(element) {
-          
-            let currentSize = window.getComputedStyle(element).getPropertyValue('font-size');                 
-            currentSize = parseFloat(currentSize);
-            const fontSizes = [12, 16, 20, 24, 28, 32, 36, 40, 44, 48, 52, 56, 60];
-            const currentIndex = fontSizes.indexOf(currentSize);
-            const nextIndex = (currentIndex + 1) % fontSizes.length;
-            
-            element.style.fontSize = fontSizes[nextIndex] + 'px';
+        document.addEventListener("DOMContentLoaded", function () {
+            const savedFont = localStorage.getItem("fontStyle");
+            if (savedFont) {
+                applyFontStyle(savedFont, false);
+            } else {
+                const urlParams = new URLSearchParams(window.location.search);
+                const font = urlParams.get("font");
+                if (font) {
+                    applyFontStyle(font, false);
+                }
+            }
+        });
+
+        function applyFontStyle(font, save = true) {
+            document.body.style.fontFamily = font;
+            if (save) {
+                localStorage.setItem("fontStyle", font);
+                const currentUrl = new URL(window.location);
+                currentUrl.searchParams.set("font", font);
+                history.replaceState({}, "", currentUrl);
+            }
         }
-        
 
+        // function toggleFontSize(element) {
+
+        //     let currentSize = window.getComputedStyle(element).getPropertyValue('font-size');
+        //     currentSize = parseFloat(currentSize);
+        //     const fontSizes = [12, 16, 20, 24, 28, 32, 36, 40, 44, 48, 52, 56, 60];
+        //     const currentIndex = fontSizes.indexOf(currentSize);
+        //     const nextIndex = (currentIndex + 1) % fontSizes.length;
+
+        //     element.style.fontSize = fontSizes[nextIndex] + 'px';
+        // }
     </script>
-
     </div>
-
 </body>
 
 </html>
