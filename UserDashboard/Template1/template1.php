@@ -12,7 +12,7 @@ if (!$user_id) {
 
 
 
-$profile_sql = "SELECT name AS profile_name, profession, email, facebook, linkedin, github, twitter, phone, address FROM profile WHERE id = $user_id";
+$profile_sql = "SELECT name AS profile_name, profession, email, facebook, linkedin, github, twitter, phone, address, background_image FROM profile WHERE id = $user_id";
 $profile_result = mysqli_query($conn, $profile_sql);
 
 if ($profile_result && mysqli_num_rows($profile_result) > 0) {
@@ -26,6 +26,8 @@ if ($profile_result && mysqli_num_rows($profile_result) > 0) {
     $twitter = $profile_row['twitter'];
     $phone = $profile_row['phone'];
     $address = $profile_row['address'];
+    $background_image = $profile_row['background_image'] ? $profile_row['background_image'] : 'img/back1.jpg';
+
 } else {
 
     $name = "Your Name";
@@ -37,6 +39,8 @@ if ($profile_result && mysqli_num_rows($profile_result) > 0) {
     $linkedin = "#";
     $github = "#";
     $twitter = "#";
+    $background_image = 'img/back1.jpg';
+
 }
 
 $about_sql = "SELECT title AS about_title, profile_pic, description AS about_description FROM aboutme WHERE id = $user_id";
@@ -115,23 +119,18 @@ if ($about_result && mysqli_num_rows($about_result) > 0) {
     <!-- End Header -->
 
     <!-- Hero Section -->
-    <section id="hero">
-
+    <section id="hero" style="background-image:url('<?php echo $background_image; ?>');" onclick="changeBackground()">
         <div class="hero container">
             <div>
-
                 <h1 class="resizable-text" onclick="toggleFontSize(this)">Hello, <span></span></h1>
                 <h1 class="resizable-text" onclick="toggleFontSize(this)">My Name is <span></span></h1>
                 <h1 class="resizable-text" onclick="toggleFontSize(this)">
                     <?php echo $name; ?><span></span>
                 </h1>
-                <p>
-                    <?php echo $profession; ?>
-                </p>
+                <p><?php echo $profession; ?></p>
             </div>
         </div>
-
-
+        <input type="file" id="backgroundInput" style="display: none;" accept="image/*">
     </section>
     <!-- End Hero Section -->
 
@@ -420,22 +419,30 @@ if ($about_result && mysqli_num_rows($about_result) > 0) {
             }
         }
         function changeBackground() {
-            // Trigger click event of input element
             document.getElementById('backgroundInput').click();
         }
-
-        function handleBackgroundChange(event) {
+        document.getElementById('backgroundInput').addEventListener('change', function(event) {
             const file = event.target.files[0];
-            const reader = new FileReader();
+            const formData = new FormData();
+            formData.append('background', file);
+            formData.append('user_id', '<?php echo $user_id; ?>');
 
-            reader.onload = function (e) {
-                const imageUrl = e.target.result;
-                document.getElementById('hero').style.backgroundImage = `url(${imageUrl})`;
-            };
-
-            reader.readAsDataURL(file);
-        }
-        // Get the theme selector element
+            fetch('upload_background.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('hero').style.backgroundImage = `url(${data.imageUrl})`;
+                } else {
+                    alert('Error uploading image: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
         const themeSelector = document.getElementById('themeSelector');
 
         // Add event listener to handle theme change
