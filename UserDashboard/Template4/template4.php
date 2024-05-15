@@ -2,7 +2,11 @@
 include 'config.php';
 
 session_start();
-$token_id = isset($_GET['token_id']) ? $_GET['token_id'] : null;
+
+// Extract the token ID from the URL
+$url = $_SERVER['REQUEST_URI'];
+$parts = explode('?', $url);
+$token_id = isset($parts[1]) ? $parts[1] : null;
 
 if (!$token_id) {
     // If token_id is not provided in the URL, handle the error as per your application logic

@@ -90,8 +90,8 @@ $conn->close();
             <div class="card">
                 <img src="img/template2.png" class="card-img-top" alt="Template 1">
                 <div class="card-body">
-                <a href="Template1/index.php?token_id=<?php echo $token_id; ?>" class="btn btn-primary" target="_blank">Explore Portfolio</a>&nbsp;
-                <a href="Template1/template1.php?token_id=<?php echo $token_id; ?>" class="btn btn-primary" target="_blank">Edit Template</a>
+                <a href="Template1/index.php?<?php echo $token_id; ?>" class="btn btn-primary" target="_blank">Explore Portfolio</a>&nbsp;
+<a href="Template1/template1.php?<?php echo $token_id; ?>" class="btn btn-primary" target="_blank">Edit Template</a>
                 </div>
             </div>
         </div>
@@ -99,8 +99,8 @@ $conn->close();
             <div class="card">
                 <img src="img/template3.png" class="card-img-top" alt="Template 3">
                 <div class="card-body">
-                    <a href="Template3/index.php?token_id=<?php echo $token_id; ?>" class="btn btn-primary" target="_blank">Explore Portfolio</a>&nbsp;
-                    <a href="Template3/template3.php?token_id=<?php echo $token_id; ?>" class="btn btn-primary" target="_blank">Edit Template</a>
+                    <a href="Template3/index.php?<?php echo $token_id; ?>" class="btn btn-primary" target="_blank">Explore Portfolio</a>&nbsp;
+                    <a href="Template3/template3.php?<?php echo $token_id; ?>" class="btn btn-primary" target="_blank">Edit Template</a>
                 </div>
             </div>
         </div>
@@ -108,8 +108,8 @@ $conn->close();
             <div class="card">
                 <img src="img/template4.png" class="card-img-top" alt="Template 4">
                 <div class="card-body">
-                    <a href="Template4/index.php?token_id=<?php echo $token_id; ?>" class="btn btn-primary" target="_blank">Explore Portfolio</a>&nbsp;
-                    <a href="Template4/template4.php?token_id=<?php echo $token_id; ?>" class="btn btn-primary" target="_blank">Edit Template</a>
+                    <a href="Template4/index.php?<?php echo $token_id; ?>" class="btn btn-primary" target="_blank">Explore Portfolio</a>&nbsp;
+                    <a href="Template4/template4.php?<?php echo $token_id; ?>" class="btn btn-primary" target="_blank">Edit Template</a>
                 </div>
             </div>
         </div>
@@ -117,8 +117,8 @@ $conn->close();
             <div class="card">
                 <img src="img/template5.png" class="card-img-top" alt="Template 5">
                 <div class="card-body">
-                  <a href="Template5/index.php?token_id=<?php echo $token_id; ?>" class="btn btn-primary" target="_blank">Explore Portfolio</a>&nbsp; 
-                  <a href="Template5/template5.php?token_id=<?php echo $token_id; ?>" class="btn btn-primary" target="_blank">Edit Template</a>
+                  <a href="Template5/index.php?<?php echo $token_id; ?>" class="btn btn-primary" target="_blank">Explore Portfolio</a>&nbsp; 
+                  <a href="Template5/template5.php?<?php echo $token_id; ?>" class="btn btn-primary" target="_blank">Edit Template</a>
                 </div>
             </div>
         </div>
@@ -126,8 +126,8 @@ $conn->close();
             <div class="card">
                 <img src="img/template6.png" class="card-img-top" alt="Template 6">
                 <div class="card-body">
-                  <a href="Template6/index.php?token_id=<?php echo $token_id; ?>" class="btn btn-primary" target="_blank">Explore Portfolio</a> &nbsp;    
-                  <a href="Template6/template6.php?token_id=<?php echo $token_id; ?>" class="btn btn-primary" target="_blank">Edit Template</a>           
+                  <a href="Template6/index.php?<?php echo $token_id; ?>" class="btn btn-primary" target="_blank">Explore Portfolio</a> &nbsp;    
+                  <a href="Template6/template6.php?<?php echo $token_id; ?>" class="btn btn-primary" target="_blank">Edit Template</a>           
             </div>
             </div>
         </div>
