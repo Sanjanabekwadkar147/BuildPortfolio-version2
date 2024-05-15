@@ -2,38 +2,41 @@
 include 'config.php';
 
 $error = array();
-// $success_message = "";
+
+function generateToken($length = 32) {
+    return bin2hex(random_bytes($length));
+}
 
 // Insert data into the database
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
 
-   // Validate name
-if (empty($_POST['name'])) {
-    $error['name'] = 'Name is required!';
-} else {
-    $name = mysqli_real_escape_string($conn, $_POST['name']);
-    if (!preg_match("/^(?=.*[A-Za-z])[A-Za-z\d@#$%^&+=!]*$/", $name)) {
-        $error['name'] = 'Invalid username';
-    }
-}
-
-    // Validate email
-if (empty($_POST['email'])) {
-    $error['email'] = 'Email is required!';
-} else {
-    $email = mysqli_real_escape_string($conn, $_POST['email']);
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $error['email'] = 'Invalid email format';
+    // Validate name
+    if (empty($_POST['name'])) {
+        $error['name'] = 'Name is required!';
     } else {
-        // Additional custom validation
-        $parts = explode('@', $email);
-        if (preg_match("/^\d|[#@]/", $parts[0])) {
-            $error['email'] = 'Invalid email format';
+        $name = mysqli_real_escape_string($conn, $_POST['name']);
+        if (!preg_match("/^(?=.*[A-Za-z])[A-Za-z\d@#$%^&+=!]*$/", $name)) {
+            $error['name'] = 'Invalid username';
         }
     }
-}
 
+    // Validate email
+    if (empty($_POST['email'])) {
+        $error['email'] = 'Email is required!';
+    } else {
+        $email = mysqli_real_escape_string($conn, $_POST['email']);
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $error['email'] = 'Invalid email format';
+        } else {
+            // Additional custom validation
+            $parts = explode('@', $email);
+            if (preg_match("/^\d|[#@]/", $parts[0])) {
+                $error['email'] = 'Invalid email format';
+            }
+        }
+    }
 
+    // Validate password
     if (empty($_POST['password'])) {
         $error['password'] = 'Password is required!';
     } else {
@@ -47,13 +50,16 @@ if (empty($_POST['email'])) {
     $result = mysqli_query($conn, $select);
 
     if (mysqli_num_rows($result) > 0) {
-        $success_message = "user already exists";
+        $success_message = "User already exists";
     } else {
         if (empty($error)) {
-            $sql = "INSERT INTO users (name, email, password) VALUES ('$name', '$email', '$password')";
+            $token_id = generateToken();
+            // $hashed_password = password_hash($password, PASSWORD_BCRYPT); // Hash the password
+
+            $sql = "INSERT INTO users (name, email, password, token_id) VALUES ('$name', '$email', '$password', '$token_id')";
 
             if ($conn->query($sql) === TRUE) {
-                $success_message = "User created successfully";
+                $success_message = "User created successfully. Token: $token";
                 header('location: login.php');
             } else {
                 echo "Error: " . $conn->error;
@@ -64,7 +70,6 @@ if (empty($_POST['email'])) {
 ?>
 
 <!DOCTYPE html>
-<!-- Created By CodingNepal -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -77,16 +82,14 @@ if (empty($_POST['email'])) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"/>
-    
 </head>
 <body>
-
     <div class="wrapper">
         <nav class="navbar">
             <div class="max-width">
                 <div class="logo"><a href="#">Portfolio.</a></div>
                 <ul class="menu">
-                     <li><a href="/BuildPortfolioV2/index.php" class="menu-btn">Home</a></li>
+                    <li><a href="/BuildPortfolioV2/index.php" class="menu-btn">Home</a></li>
                     <li><a href="/BuildPortfolioV2/index.php" class="menu-btn">About</a></li>
                     <li><a href="/BuildPortfolioV2/index.php" class="menu-btn">Services</a></li>
                     <li><a href="/BuildPortfolioV2/index.php" class="menu-btn">Contact</a></li>
@@ -97,7 +100,6 @@ if (empty($_POST['email'])) {
             </div>
         </nav>     
     </div>
-    
 
     <div class="form-container">
         <form action="" method="post">
@@ -114,56 +116,45 @@ if (empty($_POST['email'])) {
                 <input type="password" name="password" required placeholder="Enter your password">
                 <?php if (isset($error['password'])) echo '<span class="error-msg">' . $error['password'] . '</span>'; ?>
             </div>
-            <!-- <select name="user_type">
-                <option value="user">User</option>
-                <option value="admin">Admin</option>
-            </select> -->
             <?php if (isset($success_message)): ?>
             <div class="alert alert-success">
                 <?php echo $success_message; ?>
             </div>
-        <?php endif; ?>
+            <?php endif; ?>
             <input type="submit" name="submit" value="Register Now" class="form-btn">
             <p>Already have an account? <a href="login.php">Login now</a></p>
+        </form>
+    </div>
 
-
-                <script>
-                    function hideMessages() {
+    <footer>
+        <span>Created By <a href="#">Sanjana Bekwadkar</a> | <span class="far fa-copyright"></span> 2024 All rights reserved.</span>
+    </footer>
+    <script src="script.js"></script>
+    <script>
+        function hideMessages() {
             var successAlert = document.querySelector(".alert-success");
-            // var errorMessages = document.querySelectorAll(".text-danger"); // Select all error messages
-
             if (successAlert) {
                 setTimeout(function () {
                     successAlert.style.display = 'none';
-                }, 3000); // 5000 milliseconds = 5 seconds
+                }, 3000);
             }
-
-
         }
+
         function hideErrorMessages() {
-        var errorMessages = document.querySelectorAll(".error-msg");
-
-        if (errorMessages.length > 0) {
-            setTimeout(function () {
-                errorMessages.forEach(function (errorMessage) {
-                    errorMessage.style.display = 'none';
-                });
-            }, 3000); // 10000 milliseconds = 10 seconds
+            var errorMessages = document.querySelectorAll(".error-msg");
+            if (errorMessages.length > 0) {
+                setTimeout(function () {
+                    errorMessages.forEach(function (errorMessage) {
+                        errorMessage.style.display = 'none';
+                    });
+                }, 3000);
+            }
         }
-    }
 
         document.addEventListener("DOMContentLoaded", function () {
             hideMessages();
             hideErrorMessages();
         });
-                </script>
-
-        </form>
-    </div>
-    <footer>
-        <span>Created By <a href="#">Sanjana Bekwadkar</a> | <span class="far fa-copyright"></span> 2024 All rights reserved.</span>
-    </footer>
-    <script src="script.js"></script>
+    </script>
 </body>
 </html>
-

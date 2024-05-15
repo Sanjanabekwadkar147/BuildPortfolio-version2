@@ -2,11 +2,26 @@
 include 'config.php';
 
 session_start();
-$user_id = isset($_GET['user_id']) ? $_GET['user_id'] : null;
+$token_id = isset($_GET['token_id']) ? $_GET['token_id'] : null;
 
-if (!$user_id) {
-    // If user_id is not provided in the URL, handle the error as per your application logic
-    echo "Error: User ID not provided";
+if (!$token_id) {
+    // If token_id is not provided in the URL, handle the error as per your application logic
+    echo "Error: Token ID not provided";
+    exit();
+}
+
+// Fetch user_id from the database based on token_id
+$user_id_query = "SELECT id FROM users WHERE token_id = '$token_id'";
+$user_id_result = mysqli_query($conn, $user_id_query);
+
+if (!$user_id_result) {
+    echo "Error fetching user ID: " . mysqli_error($conn);
+    exit();
+} elseif (mysqli_num_rows($user_id_result) > 0) {
+    $row = mysqli_fetch_assoc($user_id_result);
+    $user_id = $row['id'];
+} else {
+    echo "User ID not found for the provided token ID";
     exit();
 }
 

@@ -45,10 +45,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit"])) {
 
             if (mysqli_num_rows($result) > 0) {
                 $row = mysqli_fetch_array($result);
-                if ($row) {
-                    $_SESSION['user_id'] = $row['id'];
-                    header('location: userdash.php?user_id=' . $row['id']);
-                }
+               if ($row) {
+    $_SESSION['user_id'] = $row['id'];
+    $_SESSION['token_id'] = $row['token_id'];
+    header('location: userdash.php?user_id=' . $row['id'] . '&token_id=' . $row['token_id']);
+    exit(); // Make sure to exit after header redirection to prevent further execution
+}
+
             } else {
                 $error[] = 'Incorrect email or password!';
                 $_SESSION['login_attempts']++; // Increment login attempts
