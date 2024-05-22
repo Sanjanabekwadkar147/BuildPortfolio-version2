@@ -493,17 +493,28 @@ if ($about_result && mysqli_num_rows($about_result) > 0) {
             alert('Web Share API is not supported in this browser. You can manually copy the link from the address bar.');
         }
     }
-         // Get the theme selector element
-         const themeSelector = document.getElementById('themeSelector');
+    function applyThemeColor(color) {
+            document.documentElement.style.setProperty('--primary', color);
+            localStorage.setItem('themeColor', color);
+        }
 
-// Add event listener to handle theme change
-themeSelector.addEventListener('input', function () {
-    // Get the selected theme color
-    const selectedColor = themeSelector.value;
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const themeColor = urlParams.get('theme') || localStorage.getItem('themeColor');
 
-    // Update the CSS custom property with the selected color
-    document.documentElement.style.setProperty('--primary', selectedColor);
-});
+            if (themeColor) {
+                applyThemeColor(themeColor);
+                themeSelector.value = themeColor;
+            }
+        });
+
+        const themeSelector = document.getElementById('themeSelector');
+        themeSelector.addEventListener('input', function () {
+            const selectedColor = themeSelector.value;
+            applyThemeColor(selectedColor);
+        });
+
+
 </script>
 
 </body>
